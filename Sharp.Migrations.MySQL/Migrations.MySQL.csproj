@@ -15,4 +15,9 @@
     <AssemblyName>Sharp.Migrations.MySQL</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="MySql.Data" Version="8.0.27" />
+  </ItemGroup>
+
 </Project>
