@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Sharp.Migrations.MySQL.Core.Helpers;
+using Sharp.Migrations.MySQL.Core;
 using Sharp.Migrations.MySQL.Core.Models;
 using Sharp.Migrations.MySQL.Core.Queries;
 using System.Collections.Generic;

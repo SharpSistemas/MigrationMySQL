@@ -1,4 +1,4 @@
-﻿namespace Sharp.Migrations.MySQL.Core.Helpers
+﻿namespace Sharp.Migrations.MySQL.Core.Models
 {
     public enum TypeField
     {

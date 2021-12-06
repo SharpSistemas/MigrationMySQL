@@ -1,4 +1,4 @@
-﻿using Sharp.Migrations.MySQL.Core.Helpers;
+﻿using Sharp.Migrations.MySQL.Core.Models;
 using Sharp.Migrations.MySQL.Exceptions;
 using System;
 

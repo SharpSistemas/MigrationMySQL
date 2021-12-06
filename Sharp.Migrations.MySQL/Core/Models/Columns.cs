@@ -1,6 +1,4 @@
-﻿using Sharp.Migrations.MySQL.Core.Helpers;
-
-namespace Sharp.Migrations.MySQL.Core.Models
+﻿namespace Sharp.Migrations.MySQL.Core.Models
 {
     public class Columns
     {
