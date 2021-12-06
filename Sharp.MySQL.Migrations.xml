@@ -61,6 +61,11 @@
             <param name="isNullable">Sets the default value to be stored in database if the field no be filled</param>
             <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
         </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.UniqueAttribute">
+            <summary>
+            Defines a property as Unique INDEX.
+            </summary>
+        </member>
         <member name="T:Sharp.MySQL.Migrations.Core.ColumnMapper">
             <summary>
             Models classes mapper attributes
@@ -114,6 +119,91 @@
         <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.SizeField">
             <summary>
             Property size
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.TableResult">
+            <summary>
+            Result of migration
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasCreated">
+            <summary>
+            Indicates if the table was created
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasModified">
+            <summary>
+            Indicates if the table was modified
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.ColumnsAdded">
+            <summary>
+            Indicates how many columns was added
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.TypeField">
+            <summary>
+            Enums of field types in MySQL
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NOT_SET">
+            <summary>
+            Field type not set
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.CHAR">
+            <summary>
+            CHAR type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NCHAR">
+            <summary>
+            CHAR type with unicode support.
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.VARCHAR">
+            <summary>
+            VARCHAR type variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NVARCHAR">
+            <summary>
+            VARCHAR type with unicode support and variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.INT">
+            <summary>
+            INT type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.BINARY">
+            <summary>
+            BINARY type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.VARBINARY">
+            <summary>
+            BINARY type with variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DATE">
+            <summary>
+            ONLY DATE type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DATETIME">
+            <summary>
+            DATETIME type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.TIMESTAMP">
+            <summary>
+            A number between '1970-01-01 00:00:01' UTC and '2038-01-19 03:14:07' UTC
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DECIMAL">
+            <summary>
+            Decimal values
             </summary>
         </member>
         <member name="T:Sharp.MySQL.Migrations.Core.TableMapper">
@@ -174,6 +264,30 @@
             Opens a connection to the database
             </summary>
             <returns>An open connection of the database</returns>
+        </member>
+        <member name="T:Sharp.MySQL.Migration">
+            <summary>
+            Class that contains functions to migration
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.#ctor(Sharp.MySQL.ConnectionFactory)">
+            <summary>
+            Constructor class
+            </summary>
+            <param name="dbFac">Connection factory</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.Add``1">
+            <summary>
+            Function to add models to migration
+            </summary>
+            <typeparam name="T">Model class</typeparam>
+            <returns>A list of table mapper</returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.Migrate">
+            <summary>
+            Fuction that executes the migration
+            </summary>
+            <returns>An array of table result</returns>
         </member>
     </members>
 </doc>
