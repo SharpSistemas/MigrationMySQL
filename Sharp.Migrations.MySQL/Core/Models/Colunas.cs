@@ -1,4 +1,4 @@
-﻿using static Sharp.Migrations.MySQL.Helpers.Enums;
+﻿using Sharp.Migrations.MySQL.Helpers;
 
 namespace Sharp.Migrations.MySQL.Core.Models
 {

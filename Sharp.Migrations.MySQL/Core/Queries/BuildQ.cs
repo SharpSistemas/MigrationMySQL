@@ -3,7 +3,6 @@ using Sharp.Migrations.MySQL.Exceptions;
 using Sharp.Migrations.MySQL.Helpers;
 using System.Linq;
 using System.Text;
-using static Sharp.Migrations.MySQL.Helpers.Enums;
 
 namespace Sharp.Migrations.MySQL.Core.Queries
 {

@@ -3,8 +3,6 @@ using Sharp.Migrations.MySQL.Core.Models;
 using Sharp.Migrations.MySQL.Helpers;
 using System.Linq;
 using System.Text;
-using static Sharp.Migrations.MySQL.Helpers.Enums;
-using static Sharp.Migrations.MySQL.Helpers.TableMapper;
 
 namespace Sharp.Migrations.MySQL.Core
 {
@@ -12,7 +10,7 @@ namespace Sharp.Migrations.MySQL.Core
     {
         public static TableResult CriaModificaTabela<T>()
         {
-            var tableMapper = FromType<T>();
+            var tableMapper = TableMapper.FromType<T>();
 
             if (!existeTabela(tableMapper.TableName)) return DBManipulation.CriaTabela(tableMapper);
             return DBManipulation.ModificaTabela(tableMapper);

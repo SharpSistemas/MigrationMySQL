@@ -1,8 +1,6 @@
-﻿
-
-using Sharp.Migrations.MySQL.Exceptions;
+﻿using Sharp.Migrations.MySQL.Exceptions;
+using Sharp.Migrations.MySQL.Helpers;
 using System;
-using static Sharp.Migrations.MySQL.Helpers.Enums;
 
 namespace Sharp.Migrations.MySQL.Attributes
 {
