@@ -1,4 +1,4 @@
-﻿namespace Sharp.Migrations.MySQL.Core.Models
+﻿namespace Sharp.MySQL.Migrations.Core.Models
 {
     public class TableSchema
     {

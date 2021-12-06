@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sharp.Migrations.MySQL.Attributes
+namespace Sharp.MySQL.Migrations.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class PrimaryKeyAttribute : Attribute

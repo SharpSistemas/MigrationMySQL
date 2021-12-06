@@ -9,8 +9,8 @@ namespace RunStuff
         {
             Console.WriteLine("Hello World!");
 
-            var mySQLFactory = new Sharp.Migrations.MySQL.ConnectionFactory("yourConnectionString");
-            var migration = new Sharp.Migrations.MySQL.Migration(mySQLFactory);
+            var mySQLFactory = new Sharp.MySQL.ConnectionFactory("yourConnectionString");
+            var migration = new Sharp.MySQL.Migration(mySQLFactory);
 
             var result = migration.Add<Pessoas>()
                                   .Add<Pessoas>()

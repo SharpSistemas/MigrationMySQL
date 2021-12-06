@@ -1,8 +1,8 @@
-﻿using Sharp.Migrations.MySQL.Core.Models;
-using Sharp.Migrations.MySQL.Exceptions;
+﻿using Sharp.MySQL.Migrations.Core.Models;
+using Sharp.MySQL.Migrations.Exceptions;
 using System;
 
-namespace Sharp.Migrations.MySQL.Attributes
+namespace Sharp.MySQL.Migrations.Attributes
 {
     public class TypeFieldBD : Attribute
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sharp.Migrations.MySQL.Exceptions
+namespace Sharp.MySQL.Migrations.Exceptions
 {
     public class NullAttributeException : Exception
     {

@@ -1,5 +1,5 @@
-﻿using Sharp.Migrations.MySQL.Attributes;
-using Sharp.Migrations.MySQL.Core.Models;
+﻿using Sharp.MySQL.Migrations.Attributes;
+using Sharp.MySQL.Migrations.Core.Models;
 using System;
 
 namespace RunStuff.Models

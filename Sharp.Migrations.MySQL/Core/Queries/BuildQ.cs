@@ -1,9 +1,9 @@
-﻿using Sharp.Migrations.MySQL.Core.Models;
-using Sharp.Migrations.MySQL.Exceptions;
+﻿using Sharp.MySQL.Migrations.Core.Models;
+using Sharp.MySQL.Migrations.Exceptions;
 using System.Linq;
 using System.Text;
 
-namespace Sharp.Migrations.MySQL.Core.Queries
+namespace Sharp.MySQL.Migrations.Core.Queries
 {
     public class BuildQ
     {

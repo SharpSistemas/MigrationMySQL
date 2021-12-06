@@ -1,12 +1,12 @@
 ﻿using Dapper;
-using Sharp.Migrations.MySQL.Core;
-using Sharp.Migrations.MySQL.Core.Models;
-using Sharp.Migrations.MySQL.Core.Queries;
+using Sharp.MySQL.Migrations.Core;
+using Sharp.MySQL.Migrations.Core.Models;
+using Sharp.MySQL.Migrations.Core.Queries;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace Sharp.Migrations.MySQL
+namespace Sharp.MySQL
 {
     public class Migration
     {

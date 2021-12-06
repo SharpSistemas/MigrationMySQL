@@ -1,10 +1,10 @@
 ﻿
-using Sharp.Migrations.MySQL.Core.Models;
+using Sharp.MySQL.Migrations.Core.Models;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Sharp.Migrations.MySQL.Core
+namespace Sharp.MySQL.Migrations.Core
 {
     public class ColumnMapper
     {

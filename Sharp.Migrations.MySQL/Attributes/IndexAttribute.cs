@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sharp.Migrations.MySQL.Attributes
+namespace Sharp.MySQL.Migrations.Attributes
 {
     [Obsolete("Não há suporte para criação de index no momento.", true)]
     public class IndexAttribute : Attribute
