@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Sharp.Migrations.MySQL.Helpers
+namespace Sharp.Migrations.MySQL.Core.Helpers
 {
     public class ColumnMapper
     {

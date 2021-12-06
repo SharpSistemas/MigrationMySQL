@@ -1,4 +1,4 @@
-﻿using Sharp.Migrations.MySQL.Helpers;
+﻿using Sharp.Migrations.MySQL.Core.Helpers;
 
 namespace Sharp.Migrations.MySQL.Core.Models
 {

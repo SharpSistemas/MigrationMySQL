@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace Sharp.Migrations.MySQL.Core
 {
     public class ConnectionFactory
     {
-        public string CnnectionString { get; }
+        public string ConnectionString { get; }
 
         public ConnectionFactory(string cnnString)
         {
@@ -16,12 +14,12 @@ namespace Sharp.Migrations.MySQL.Core
             {
                 throw new ArgumentException($"'{nameof(cnnString)}' cannot be null or whitespace.", nameof(cnnString));
             }
-            CnnectionString = cnnString;
+            ConnectionString = cnnString;
         }
 
-        public IDbConnection GetConnection(string connString)
+        public IDbConnection GetConnection()
         {
-            var conn = new MySqlConnection(CnnectionString);
+            var conn = new MySqlConnection(ConnectionString);
             conn.Open();
             return conn;
         }

@@ -1,4 +1,4 @@
-﻿namespace Sharp.Migrations.MySQL.Helpers
+﻿namespace Sharp.Migrations.MySQL.Core.Helpers
 {
     public enum TipoCampoBD
     {

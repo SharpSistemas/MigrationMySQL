@@ -1,5 +1,5 @@
-﻿using Sharp.Migrations.MySQL.Exceptions;
-using Sharp.Migrations.MySQL.Helpers;
+﻿using Sharp.Migrations.MySQL.Core.Helpers;
+using Sharp.Migrations.MySQL.Exceptions;
 using System;
 
 namespace Sharp.Migrations.MySQL.Attributes

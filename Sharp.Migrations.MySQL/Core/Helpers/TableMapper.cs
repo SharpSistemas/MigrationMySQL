@@ -1,7 +1,7 @@
 ﻿
 using Sharp.Migrations.MySQL.Core.Models;
 
-namespace Sharp.Migrations.MySQL.Helpers
+namespace Sharp.Migrations.MySQL.Core.Helpers
 {
     public class TableMapper
     {

@@ -1,6 +1,6 @@
-﻿using Sharp.Migrations.MySQL.Core.Models;
+﻿using Sharp.Migrations.MySQL.Core.Helpers;
+using Sharp.Migrations.MySQL.Core.Models;
 using Sharp.Migrations.MySQL.Exceptions;
-using Sharp.Migrations.MySQL.Helpers;
 using System.Linq;
 using System.Text;
 
@@ -25,8 +25,8 @@ namespace Sharp.Migrations.MySQL.Core.Queries
                 sb.Append($"{colsToAdd[i].TypeField} "); //tipo do campo
                 if (colsToAdd[i].TypeField != TipoCampoBD.INT && colsToAdd[i].SizeField > 0) sb.Append($"({colsToAdd[i].SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
                 //inserir tipo UNSIGNED
-                sb.Append($"{(colsToAdd[i].IsNotNull ? "NOT NULL" : "NULL")}");
-                if (colsToAdd[i].IsAI) sb.Append("AUTO_INCREMENT ");
+                sb.Append($"{(colsToAdd[i].IsNotNull ? " NOT NULL " : " NULL ")}");
+                if (colsToAdd[i].IsAI) sb.Append(" AUTO_INCREMENT ");
 
                 if (colsToAdd[i].IsPk) sb.Append($", PRIMARY KEY ({colsToAdd[i].FieldName}) ");
                 if (colsToAdd[i].IsUnique) sb.Append($", UNIQUE INDEX {colsToAdd[i].FieldName} ({colsToAdd[i].FieldName} ASC) VISIBLE");
@@ -37,9 +37,8 @@ namespace Sharp.Migrations.MySQL.Core.Queries
             var queryFull = $"{queryCreate} {string.Join(',', listaQuery)})";
             return queryFull;
         }
-        public static string buildQueryAlterTable(TableMapper tbMapper)
+        public static string buildQueryAlterTable(TableMapper tbMapper, TableSchema[] colunasBD)
         {
-            var colunasBD = Helpers.getTableSchema(tbMapper.TableName);
             //var indexDB = Helpers.getTableIndexes(tbMapper.TableName);
 
             //if (!needChanges(tbMapper, colunasBD, indexDB)) return string.Empty;
@@ -78,12 +77,12 @@ namespace Sharp.Migrations.MySQL.Core.Queries
 
                 if (colBd == null) continue;
                 sb.Append($" CHANGE COLUMN {colBd.Field} {colBd.Field} {colBd.Type} ");
-                
+
                 sb.Append($" ({(c.SizeField > colBd.SizeField ? c.SizeField : colBd.SizeField)}) ");
 
                 if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
                 sb.Append($"{(c.IsNotNull ? " NOT NULL" : " NULL")}");
-                if (c.IsAI && c.TypeField == TipoCampoBD.INT && c.IsNotNull && !colBd.Extra.Contains("auto_increment")) sb.Append(" AUTO_INCREMENT, ");
+                if (c.IsAI && c.TypeField == TipoCampoBD.INT && c.IsNotNull && !colBd.Extra.Contains("auto_increment")) sb.Append(" AUTO_INCREMENT ");
 
                 if (c.IsUnique && colBd.Key == "") sb.Append($" ADD UNIQUE INDEX {colBd.Field}_UNIQUE ({colBd.Field} ASC) VISIBLE,");
                 if (c.IsPk && colBd.Key == "" && (!tableHasPrimaryKey)) sb.Append($" ADD PRIMARY KEY ({c.FieldName}) ");
