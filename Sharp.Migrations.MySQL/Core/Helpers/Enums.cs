@@ -1,6 +1,6 @@
 ﻿namespace Sharp.Migrations.MySQL.Core.Helpers
 {
-    public enum TipoCampoBD
+    public enum TypeField
     {
         NOT_SET = 0,
         CHAR,

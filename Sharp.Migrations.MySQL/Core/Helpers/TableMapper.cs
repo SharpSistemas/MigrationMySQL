@@ -6,7 +6,7 @@ namespace Sharp.Migrations.MySQL.Core.Helpers
     public class TableMapper
     {
         public string TableName { get; private set; }
-        public Colunas[] Colunas { get; private set; }
+        public Columns[] Columns { get; private set; }
         private TableMapper()
         {
         }
@@ -14,12 +14,12 @@ namespace Sharp.Migrations.MySQL.Core.Helpers
         public static TableMapper FromType<T>()
         {
             var table = typeof(T);
-            var cols = ColumnMapper.FromType<T>().Colunas;
+            var cols = ColumnMapper.FromType<T>().Columns;
 
             var tm = new TableMapper
             {
                 TableName = table.Name,
-                Colunas = cols,
+                Columns = cols,
             };
 
             return tm;

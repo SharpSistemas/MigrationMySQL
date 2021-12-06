@@ -6,36 +6,36 @@ namespace Sharp.Migrations.MySQL.Attributes
 {
     public class TypeFieldBD : Attribute
     {
-        public TipoCampoBD TipoCampo { get; set; }
-        public int Tamanho { get; set; }
+        public TypeField TypeField { get; set; }
+        public int SizeField { get; set; }
         public bool NotNull { get; set; }
         public string DefaultValue { get; set; }
 
-        public TypeFieldBD(TipoCampoBD tipoCampo)
+        public TypeFieldBD(TypeField typeField)
         {
-            if (!isValidTipoCampoBD(tipoCampo)) throw new InvalidAttributeException($"Invalid Attribute type! {tipoCampo}");
-            TipoCampo = tipoCampo;
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
         }
 
-        public TypeFieldBD(TipoCampoBD tipoCampo, int tamanho)
+        public TypeFieldBD(TypeField typeField, int size)
         {
-            if (!isValidTipoCampoBD(tipoCampo)) throw new InvalidAttributeException($"Invalid Attribute type! {tipoCampo}");
-            TipoCampo = tipoCampo;
-            Tamanho = tamanho;
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
+            SizeField = size;
         }
-        public TypeFieldBD(TipoCampoBD tipoCampo, int tamanho, bool isNullable, string defaultValue = null)
+        public TypeFieldBD(TypeField typeField, int size, bool isNullable, string defaultValue = null)
         {
-            if (!isValidTipoCampoBD(tipoCampo)) throw new InvalidAttributeException($"Invalid Attribute type! {tipoCampo}");
-            TipoCampo = tipoCampo;
-            Tamanho = tamanho;
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
+            SizeField = size;
             NotNull = isNullable;
             DefaultValue = defaultValue;
         }
-        private bool isValidTipoCampoBD(TipoCampoBD tipoCampo)
+        private bool isValidTipoCampoBD(TypeField typeField)
         {
-            if (tipoCampo == TipoCampoBD.NOT_SET) return false;
+            if (typeField == TypeField.NOT_SET) return false;
 
-            if (!Enum.IsDefined(typeof(TipoCampoBD), tipoCampo)) return false;
+            if (!Enum.IsDefined(typeof(TypeField), typeField)) return false;
 
             return true;
         }

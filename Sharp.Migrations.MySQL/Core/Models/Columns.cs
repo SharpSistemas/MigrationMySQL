@@ -2,7 +2,7 @@
 
 namespace Sharp.Migrations.MySQL.Core.Models
 {
-    public class Colunas
+    public class Columns
     {
         public string FieldName { get; set; }
         public bool IsPk { get; set; }
@@ -10,7 +10,7 @@ namespace Sharp.Migrations.MySQL.Core.Models
         public bool IsUnique { get; set; }
         public bool IsNotNull { get; set; }
         public string DefaultValue { get; set; }
-        public TipoCampoBD TypeField { get; set; }
+        public TypeField TypeField { get; set; }
         public int SizeField { get; set; }
     }
 }

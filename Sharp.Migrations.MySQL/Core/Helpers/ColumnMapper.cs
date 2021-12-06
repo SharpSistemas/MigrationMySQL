@@ -8,14 +8,14 @@ namespace Sharp.Migrations.MySQL.Core.Helpers
 {
     public class ColumnMapper
     {
-        public Colunas[] Colunas { get; private set; }
+        public Columns[] Columns { get; private set; }
 
         private ColumnMapper() { }
 
         public static ColumnMapper FromType<T>()
         {
             var properties = typeof(T).GetProperties();
-            var colunas = new Colunas[properties.Length];
+            var columns = new Columns[properties.Length];
 
             for (int i = 0; i < properties.Length; i++)
             {
@@ -24,14 +24,14 @@ namespace Sharp.Migrations.MySQL.Core.Helpers
 
                 if (typeField == null) throw new Exceptions.NullAttributeException($"No field definition. Decorate it with 'TypeFieldBD'. Field: {properties[i].Name}");
 
-                colunas[i] = new Colunas
+                columns[i] = new Columns
                 {
                     FieldName = properties[i].Name,
                     IsPk = Attribute.IsDefined(properties[i], typeof(Attributes.PrimaryKeyAttribute)),
                     IsUnique = Attribute.IsDefined(properties[i], typeof(Attributes.UniqueAttribute)),
                     IsAI = Attribute.IsDefined(properties[i], typeof(Attributes.AutoIncrementAttribute)),
-                    SizeField = typeField.Tamanho,
-                    TypeField = typeField.TipoCampo,
+                    SizeField = typeField.SizeField,
+                    TypeField = typeField.TypeField,
                     IsNotNull = typeField.NotNull,
                     DefaultValue = typeField.DefaultValue,
                 };
@@ -39,7 +39,7 @@ namespace Sharp.Migrations.MySQL.Core.Helpers
 
             var cm = new ColumnMapper
             {
-                Colunas = colunas,
+                Columns = columns,
             };
 
             return cm;

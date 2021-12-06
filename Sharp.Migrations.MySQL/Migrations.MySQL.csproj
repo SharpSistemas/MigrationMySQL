@@ -13,6 +13,7 @@
     <PackageLicenseExpression>(C) SHARP SISTEMAS</PackageLicenseExpression>
     <RootNamespace>Sharp.Migrations.MySQL</RootNamespace>
     <AssemblyName>Sharp.Migrations.MySQL</AssemblyName>
+    <Version>0.0.9</Version>
   </PropertyGroup>
 
   <ItemGroup>

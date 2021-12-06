@@ -41,7 +41,7 @@ namespace Sharp.Migrations.MySQL
                 var result = db.Execute(query, db);
                 return new TableResult
                 {
-                    ColumnsAdded = tableMapper.Colunas.Length,
+                    ColumnsAdded = tableMapper.Columns.Length,
                     WasCreated = true,
                     WasModified = false,
                 };
@@ -52,20 +52,15 @@ namespace Sharp.Migrations.MySQL
             var colunasBD = getTableSchema(tbMapper.TableName);
             var query = BuildQ.buildQueryAlterTable(tbMapper, colunasBD);
 
-            if (string.IsNullOrWhiteSpace(query)) return new TableResult
-            {
-                ColumnsAdded = 0,
-                WasCreated = false,
-                WasModified = false,
-            };
-
             using (var db = dbFac.GetConnection())
             {
                 var result = db.Execute(query, db);
 
                 return new TableResult
                 {
-
+                    ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
+                    WasModified = true,
+                    WasCreated = false,
                 };
             }
         }

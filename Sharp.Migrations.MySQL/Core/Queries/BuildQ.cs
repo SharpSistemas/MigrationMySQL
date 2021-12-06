@@ -12,18 +12,18 @@ namespace Sharp.Migrations.MySQL.Core.Queries
         {
             string queryCreate = $"CREATE TABLE {table.TableName} (";
 
-            var colsToAdd = table.Colunas;
+            var colsToAdd = table.Columns;
 
-            var listaQuery = new string[colsToAdd.Length];
-            for (int i = 0; i < listaQuery.Length; i++)
+            var queryList = new string[colsToAdd.Length];
+            for (int i = 0; i < queryList.Length; i++)
             {
                 if (colsToAdd[i].IsPk && !colsToAdd[i].IsNotNull) throw new InvalidAttributeException($"PKs fields MUST be NOT NULL! Decorate it with TypeFieldBD. Field: {colsToAdd[i].FieldName}");
 
                 var sb = new StringBuilder();
 
-                sb.Append($"{colsToAdd[i].FieldName} "); //nome do campo
-                sb.Append($"{colsToAdd[i].TypeField} "); //tipo do campo
-                if (colsToAdd[i].TypeField != TipoCampoBD.INT && colsToAdd[i].SizeField > 0) sb.Append($"({colsToAdd[i].SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
+                sb.Append($"{colsToAdd[i].FieldName} "); //field name
+                sb.Append($"{colsToAdd[i].TypeField} "); //field type
+                if (colsToAdd[i].TypeField != TypeField.INT && colsToAdd[i].SizeField > 0) sb.Append($"({colsToAdd[i].SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
                 //inserir tipo UNSIGNED
                 sb.Append($"{(colsToAdd[i].IsNotNull ? " NOT NULL " : " NULL ")}");
                 if (colsToAdd[i].IsAI) sb.Append(" AUTO_INCREMENT ");
@@ -31,10 +31,10 @@ namespace Sharp.Migrations.MySQL.Core.Queries
                 if (colsToAdd[i].IsPk) sb.Append($", PRIMARY KEY ({colsToAdd[i].FieldName}) ");
                 if (colsToAdd[i].IsUnique) sb.Append($", UNIQUE INDEX {colsToAdd[i].FieldName} ({colsToAdd[i].FieldName} ASC) VISIBLE");
 
-                listaQuery[i] = sb.ToString();
+                queryList[i] = sb.ToString();
             }
 
-            var queryFull = $"{queryCreate} {string.Join(',', listaQuery)})";
+            var queryFull = $"{queryCreate} {string.Join(',', queryList)})";
             return queryFull;
         }
         public static string buildQueryAlterTable(TableMapper tbMapper, TableSchema[] colunasBD)
@@ -43,7 +43,7 @@ namespace Sharp.Migrations.MySQL.Core.Queries
 
             //if (!needChanges(tbMapper, colunasBD, indexDB)) return string.Empty;
 
-            var colsToAdd = tbMapper.Colunas.Where(col => !colunasBD.Any(o => o.Field == col.FieldName))
+            var colsToAdd = tbMapper.Columns.Where(col => !colunasBD.Any(o => o.Field == col.FieldName))
                                             .ToArray();
 
             StringBuilder sb = new StringBuilder();
@@ -58,13 +58,13 @@ namespace Sharp.Migrations.MySQL.Core.Queries
             }
 
             //função responsável por montar a parte onde vai realizar alterações nas colunas
-            sb.Append(buildChangeColumnsAlterTable(tbMapper.Colunas, colunasBD));
+            sb.Append(buildChangeColumnsAlterTable(tbMapper.Columns, colunasBD));
 
             query = sb.ToString();
 
             return query;
         }
-        private static string buildChangeColumnsAlterTable(Colunas[] colunasModel, TableSchema[] colunasBD)
+        private static string buildChangeColumnsAlterTable(Columns[] colunasModel, TableSchema[] colunasBD)
         {
             StringBuilder sb = new StringBuilder();
             var tableHasPrimaryKey = false;
@@ -82,7 +82,7 @@ namespace Sharp.Migrations.MySQL.Core.Queries
 
                 if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
                 sb.Append($"{(c.IsNotNull ? " NOT NULL" : " NULL")}");
-                if (c.IsAI && c.TypeField == TipoCampoBD.INT && c.IsNotNull && !colBd.Extra.Contains("auto_increment")) sb.Append(" AUTO_INCREMENT ");
+                if (c.IsAI && c.TypeField == TypeField.INT && c.IsNotNull && !colBd.Extra.Contains("auto_increment")) sb.Append(" AUTO_INCREMENT ");
 
                 if (c.IsUnique && colBd.Key == "") sb.Append($" ADD UNIQUE INDEX {colBd.Field}_UNIQUE ({colBd.Field} ASC) VISIBLE,");
                 if (c.IsPk && colBd.Key == "" && (!tableHasPrimaryKey)) sb.Append($" ADD PRIMARY KEY ({c.FieldName}) ");
@@ -90,14 +90,14 @@ namespace Sharp.Migrations.MySQL.Core.Queries
             }
             return sb.ToString().Trim(',');
         }
-        private static string buildAddColumnsAlterTable(Colunas[] colsToAdd)
+        private static string buildAddColumnsAlterTable(Columns[] colsToAdd)
         {
             var sb = new StringBuilder();
             foreach (var c in colsToAdd)
             {
                 sb.Append($"ADD COLUMN {c.FieldName} ");
                 sb.Append($"{c.TypeField} ");
-                if (c.TypeField != TipoCampoBD.INT && c.SizeField > 0) sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
+                if (c.TypeField != TypeField.INT && c.SizeField > 0) sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
                 sb.Append($"{(c.IsNotNull ? "NOT NULL " : "NULL ")}");
                 if (c.IsAI) sb.Append("AUTO_INCREMENT ");
 

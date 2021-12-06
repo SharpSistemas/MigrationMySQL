@@ -1,5 +1,4 @@
 ﻿using RunStuff.Models;
-using Sharp.Migrations.MySQL;
 using System;
 
 namespace RunStuff
@@ -10,12 +9,19 @@ namespace RunStuff
         {
             Console.WriteLine("Hello World!");
 
-            var dbFac = new ConnectionFactory("Server=127.0.0.1;Port=3306;Uid=root;Pwd=5501;Database=portalsharp");
-            var mig = getMigration(dbFac);
+            var mySQLFactory = new Sharp.Migrations.MySQL.ConnectionFactory("yourConnectionString");
+            var migration = new Sharp.Migrations.MySQL.Migration(mySQLFactory);
 
-            mig.Add<Pessoas>()
-               .Migrate();
+            var result = migration.Add<Pessoas>()
+                                  .Add<Pessoas>()
+                                  .Migrate();
+
+            foreach (var r in result)
+            {
+                Console.WriteLine(r.ColumnsAdded);
+                Console.WriteLine(r.WasCreated);
+                Console.WriteLine(r.WasModified);
+            }
         }
-        private static Migration getMigration(ConnectionFactory dbFac) => new Migration(dbFac);
     }
 }

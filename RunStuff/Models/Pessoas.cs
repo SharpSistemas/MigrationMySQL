@@ -8,12 +8,12 @@ namespace RunStuff.Models
     {
         [PrimaryKey]
         [AutoIncrement]
-        [TypeFieldBD(TipoCampoBD.INT, NotNull = true)]
+        [TypeFieldBD(TypeField.INT, NotNull = true)]
         public int Id { get; set; }
         [Unique]
-        [TypeFieldBD(TipoCampoBD.BINARY, 16)]
+        [TypeFieldBD(TypeField.BINARY, 16)]
         public Guid Uuid { get; set; }
-        [TypeFieldBD(TipoCampoBD.VARCHAR, 60, false)]
+        [TypeFieldBD(TypeField.VARCHAR, 60, false)]
         public string Nome { get; set; }
     }
 }
