@@ -12,7 +12,7 @@ namespace Sharp.MySQL.Migrations.Core
 
         private ColumnMapper() { }
 
-        public static ColumnMapper FromType<T>()
+        internal static ColumnMapper FromType<T>()
         {
             var properties = typeof(T).GetProperties();
             var columns = new Columns[properties.Length];

@@ -11,7 +11,7 @@ namespace Sharp.MySQL.Migrations.Core
         {
         }
 
-        public static TableMapper FromType<T>()
+        internal static TableMapper FromType<T>()
         {
             var table = typeof(T);
             var cols = ColumnMapper.FromType<T>().Columns;

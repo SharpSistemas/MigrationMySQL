@@ -1,6 +1,6 @@
 ﻿namespace Sharp.MySQL.Migrations.Core.Models
 {
-    public class TableIndex
+    internal class TableIndex
     {
         public string Table { get; set; }
         public string Non_unique { get; set; }

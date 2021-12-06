@@ -1,6 +1,6 @@
 ﻿namespace Sharp.MySQL.Migrations.Core.Models
 {
-    public class TableSchema
+    internal class TableSchema
     {
         public string Field { get; set; }
         public string Type { get; set; }
