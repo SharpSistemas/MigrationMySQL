@@ -13,8 +13,9 @@
     <PackageLicenseExpression>(C) SHARP SISTEMAS</PackageLicenseExpression>
     <RootNamespace>Sharp.MySQL.Migrations</RootNamespace>
     <AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
     <PackageId>Sharp.MySQL.Migrations</PackageId>
+    <PackageReleaseNotes>Pareado com o commit 760f1cf</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
