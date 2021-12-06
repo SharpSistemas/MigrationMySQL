@@ -6,8 +6,14 @@ using System.Reflection;
 
 namespace Sharp.MySQL.Migrations.Core
 {
+    /// <summary>
+    /// Models classes mapper attributes
+    /// </summary>
     public class ColumnMapper
     {
+        /// <summary>
+        /// Properties from the class
+        /// </summary>
         public Columns[] Columns { get; private set; }
 
         private ColumnMapper() { }

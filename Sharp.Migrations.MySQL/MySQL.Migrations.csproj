@@ -17,6 +17,10 @@
     <PackageId>Sharp.MySQL.Migrations</PackageId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\Sharp.MySQL.Migrations.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Core\Interfaces1\**" />
     <EmbeddedResource Remove="Core\Interfaces1\**" />

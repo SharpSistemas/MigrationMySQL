@@ -8,20 +8,39 @@ using System.Linq;
 
 namespace Sharp.MySQL
 {
+    /// <summary>
+    /// Class that contains functions to migration
+    /// </summary>
     public class Migration
     {
         private ConnectionFactory dbFac { get; }
         private List<TableMapper> tables;
+        
+        /// <summary>
+        /// Constructor class
+        /// </summary>
+        /// <param name="dbFac">Connection factory</param>
         public Migration(ConnectionFactory dbFac)
         {
             this.dbFac = dbFac;
             tables = new List<TableMapper>();
         }
+
+        /// <summary>
+        /// Function to add models to migration
+        /// </summary>
+        /// <typeparam name="T">Model class</typeparam>
+        /// <returns>A list of table mapper</returns>
         public Migration Add<T>()
         {
             tables.Add(TableMapper.FromType<T>());
             return this;
         }
+
+        /// <summary>
+        /// Fuction that executes the migration
+        /// </summary>
+        /// <returns>An array of table result</returns>
         public TableResult[] Migrate()
         {
             var result = tables.Select(t => migrateTable(t)).ToArray();

@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sharp.MySQL.Migrations</name>
+    </assembly>
+    <members>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.AutoIncrementAttribute">
+            <summary>
+            Defines a property as AutoIncrement. Property MUST be INT and NotNull (see about TypeFieldBDAttribute to set as NotNull).
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.PrimaryKeyAttribute">
+            <summary>
+            Defines a property as PrimaryKey. It's recommended to use with an INT property
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.TypeFieldBD">
+            <summary>
+            Configure the fields in database.
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.TypeField">
+            <summary>
+            Sets the field type
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.SizeField">
+            <summary>
+            Sets the field length
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.NotNull">
+            <summary>
+            Define if it will be NOT NULL if true or NULL if false
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.DefaultValue">
+            <summary>
+            Sets the default value to be stored in database if the field is not filled
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField,System.Int32)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="size">Sets the field length</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField,System.Int32,System.Boolean,System.String)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="size">Sets the field length</param>
+            <param name="isNullable">Sets the default value to be stored in database if the field no be filled</param>
+            <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.ColumnMapper">
+            <summary>
+            Models classes mapper attributes
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.ColumnMapper.Columns">
+            <summary>
+            Properties from the class
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.Columns">
+            <summary>
+            Properties from a class that represent the columns in database
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.FieldName">
+            <summary>
+            Property name
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsPk">
+            <summary>
+            Is Primary Key
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsAI">
+            <summary>
+            Is Auto Increment
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsUnique">
+            <summary>
+            Is Unique Index
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsNotNull">
+            <summary>
+            Is Not Null
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.DefaultValue">
+            <summary>
+            Default value
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.TypeField">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.SizeField">
+            <summary>
+            Property size
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.TableMapper">
+            <summary>
+            Class model that represents a table in database
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.TableMapper.TableName">
+            <summary>
+            Table name (class name)
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.TableMapper.Columns">
+            <summary>
+            Properties from a class that represent the columns in database
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Exceptions.InvalidAttributeException">
+            <summary>
+            Exception when is detect an invalid use of a property
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Exceptions.InvalidAttributeException.#ctor(System.String)">
+            <summary>
+            Constructor of the exception
+            </summary>
+            <param name="message">Message to show when the exception is thrown</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Exceptions.NullAttributeException">
+            <summary>
+            Exception when is detect an null property
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Exceptions.NullAttributeException.#ctor(System.String)">
+            <summary>
+            Constructor of the exception
+            </summary>
+            <param name="message">Message to show when the exception is thrown</param>
+        </member>
+        <member name="T:Sharp.MySQL.ConnectionFactory">
+            <summary>
+            Connection factory class
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.ConnectionFactory.ConnectionString">
+            <summary>
+            Connection string to reach the MySQL database
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.ConnectionFactory.#ctor(System.String)">
+            <summary>
+            Constructor to fill the ConnectionString
+            </summary>
+            <param name="cnnString">Connection string to reach the MySQL database</param>
+        </member>
+        <member name="M:Sharp.MySQL.ConnectionFactory.GetConnection">
+            <summary>
+            Opens a connection to the database
+            </summary>
+            <returns>An open connection of the database</returns>
+        </member>
+    </members>
+</doc>

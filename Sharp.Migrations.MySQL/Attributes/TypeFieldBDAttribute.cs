@@ -4,25 +4,54 @@ using System;
 
 namespace Sharp.MySQL.Migrations.Attributes
 {
+    /// <summary>
+    /// Configure the fields in database.
+    /// </summary>
     public class TypeFieldBD : Attribute
     {
+        /// <summary>
+        /// Sets the field type
+        /// </summary>
         public TypeField TypeField { get; set; }
+        /// <summary>
+        /// Sets the field length
+        /// </summary>
         public int SizeField { get; set; }
+        /// <summary>
+        /// Define if it will be NOT NULL if true or NULL if false
+        /// </summary>
         public bool NotNull { get; set; }
+        /// <summary>
+        /// Sets the default value to be stored in database if the field is not filled
+        /// </summary>
         public string DefaultValue { get; set; }
-
+        /// <summary>
+        /// Configure the fields in database.
+        /// </summary>
+        /// <param name="typeField">Sets the field type</param>
         public TypeFieldBD(TypeField typeField)
         {
             if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
             TypeField = typeField;
         }
-
+        /// <summary>
+        /// Configure the fields in database.
+        /// </summary>
+        /// <param name="typeField">Sets the field type</param>
+        /// <param name="size">Sets the field length</param>
         public TypeFieldBD(TypeField typeField, int size)
         {
             if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
             TypeField = typeField;
             SizeField = size;
         }
+        /// <summary>
+        /// Configure the fields in database.
+        /// </summary>
+        /// <param name="typeField">Sets the field type</param>
+        /// <param name="size">Sets the field length</param>
+        /// <param name="isNullable">Sets the default value to be stored in database if the field no be filled</param>
+        /// <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
         public TypeFieldBD(TypeField typeField, int size, bool isNullable, string defaultValue = null)
         {
             if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
