@@ -44,13 +44,5 @@ namespace Sharp.Migrations.MySQL.Core
                 };
             }
         }
-        public static IDbConnection Connect(string connString)
-        {
-            connString = "Server=127.0.0.1;Port=3306;Uid=root;Pwd=5501;Database=portalsharp";
-
-            var conn = new MySqlConnection(connString);
-            conn.Open();
-            return conn;
-        }
     }
 }
