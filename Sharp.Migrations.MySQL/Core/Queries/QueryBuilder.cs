@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sharp.MySQL.Migrations.Core.Queries
 {
-    public class BuildQ
+    internal class QueryBuilder
     {
         public static string buildQueryCreateTable(TableMapper table)
         {

@@ -35,7 +35,7 @@ namespace Sharp.MySQL
         }
         private TableResult CreateTable(TableMapper tableMapper)
         {
-            string query = BuildQ.buildQueryCreateTable(tableMapper);
+            string query = QueryBuilder.buildQueryCreateTable(tableMapper);
             using (var db = dbFac.GetConnection())
             {
                 var result = db.Execute(query, db);
@@ -50,7 +50,7 @@ namespace Sharp.MySQL
         private TableResult ModifyTable(TableMapper tbMapper)
         {
             var colunasBD = getTableSchema(tbMapper.TableName);
-            var query = BuildQ.buildQueryAlterTable(tbMapper, colunasBD);
+            var query = QueryBuilder.buildQueryAlterTable(tbMapper, colunasBD);
 
             using (var db = dbFac.GetConnection())
             {
