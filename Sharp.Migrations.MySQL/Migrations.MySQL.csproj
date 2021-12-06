@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>SHARP SISTEMAS</Authors>
+    <Company>SHARP SISTEMAS</Company>
+    <Product>Migrations - MySQL</Product>
+    <Description>Migration package for MySql databases</Description>
+    <Copyright>SHARP SISTEMAS</Copyright>
+    <PackageProjectUrl>https://github.com/SharpSistemas/MigrationMySQL</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SharpSistemas/MigrationMySQL</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageLicenseExpression>(C) SHARP SISTEMAS</PackageLicenseExpression>
+    <RootNamespace>Sharp.Migrations.MySQL</RootNamespace>
+    <AssemblyName>Sharp.Migrations.MySQL</AssemblyName>
+  </PropertyGroup>
+
+</Project>
