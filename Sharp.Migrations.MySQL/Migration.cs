@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace Sharp.Migrations.MySQL.Core
+namespace Sharp.Migrations.MySQL
 {
     public class Migration
     {
@@ -17,7 +17,6 @@ namespace Sharp.Migrations.MySQL.Core
             this.dbFac = dbFac;
             tables = new List<TableMapper>();
         }
-
         public Migration Add<T>()
         {
             tables.Add(TableMapper.FromType<T>());

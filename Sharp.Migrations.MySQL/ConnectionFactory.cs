@@ -2,7 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace Sharp.Migrations.MySQL.Core
+namespace Sharp.Migrations.MySQL
 {
     public class ConnectionFactory
     {

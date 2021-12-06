@@ -1,5 +1,5 @@
 ﻿using RunStuff.Models;
-using Sharp.Migrations.MySQL.Core;
+using Sharp.Migrations.MySQL;
 using System;
 
 namespace RunStuff
@@ -14,13 +14,8 @@ namespace RunStuff
             var mig = getMigration(dbFac);
 
             mig.Add<Pessoas>()
-               .Add<Pessoas>()
                .Migrate();
         }
-
-        private static Migration getMigration(ConnectionFactory dbFac)
-        {
-            return new Migration(dbFac);
-        }
+        private static Migration getMigration(ConnectionFactory dbFac) => new Migration(dbFac);
     }
 }
