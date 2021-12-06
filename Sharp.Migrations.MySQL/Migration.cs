@@ -15,7 +15,6 @@ namespace Sharp.MySQL
     {
         private ConnectionFactory dbFac { get; }
         private List<TableMapper> tables;
-        
         /// <summary>
         /// Constructor class
         /// </summary>
@@ -25,7 +24,6 @@ namespace Sharp.MySQL
             this.dbFac = dbFac;
             tables = new List<TableMapper>();
         }
-
         /// <summary>
         /// Function to add models to migration
         /// </summary>
@@ -36,7 +34,6 @@ namespace Sharp.MySQL
             tables.Add(TableMapper.FromType<T>());
             return this;
         }
-
         /// <summary>
         /// Fuction that executes the migration
         /// </summary>
