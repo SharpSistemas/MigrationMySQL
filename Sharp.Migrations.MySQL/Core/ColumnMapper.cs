@@ -28,6 +28,9 @@ namespace Sharp.MySQL.Migrations.Core
                 var typeField = properties[i].GetCustomAttributes<Attributes.TypeFieldBD>()
                                              .FirstOrDefault();
 
+                var decimalPrecision = properties[i].GetCustomAttributes<Attributes.DecimalPrecisionAttribute>()
+                                                    .FirstOrDefault();
+
                 if (typeField == null) throw new Exceptions.NullAttributeException($"No field definition. Decorate it with 'TypeFieldBD'. Field: {properties[i].Name}");
 
                 columns[i] = new Columns
@@ -40,6 +43,7 @@ namespace Sharp.MySQL.Migrations.Core
                     TypeField = typeField.TypeField,
                     IsNotNull = typeField.NotNull,
                     DefaultValue = typeField.DefaultValue,
+                    DecimalPrecision = decimalPrecision == null ? 0 : decimalPrecision.DecimalSpaces,
                 };
             }
 

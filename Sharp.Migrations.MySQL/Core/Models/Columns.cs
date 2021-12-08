@@ -26,6 +26,10 @@
         /// </summary>
         public bool IsNotNull { get; set; }
         /// <summary>
+        /// Is Decimal Property
+        /// </summary>
+        public int DecimalPrecision { get; set; }
+        /// <summary>
         /// Default value
         /// </summary>
         public string DefaultValue { get; set; }

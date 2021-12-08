@@ -50,8 +50,12 @@
         /// </summary>
         TIMESTAMP,
         /// <summary>
-        /// Decimal values
+        /// Decimal values. Pattern if TypeFieldBD.Size and DecimalPrecision.DecimalSpaces not defined: (12,3).
         /// </summary>
         DECIMAL,
+        /// <summary>
+        /// TIME values
+        /// </summary>
+        TIME,
     }
 }
