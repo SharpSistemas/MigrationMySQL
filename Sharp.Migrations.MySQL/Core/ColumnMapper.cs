@@ -25,9 +25,13 @@ namespace Sharp.MySQL.Migrations.Core
 
             for (int i = 0; i < properties.Length; i++)
             {
+                var ignoredAttribute = properties[i].GetCustomAttributes<Attributes.IgnoreAttribute>()
+                                                    .FirstOrDefault();
+
+                if (ignoredAttribute != null) continue;
+
                 var typeField = properties[i].GetCustomAttributes<Attributes.TypeFieldBD>()
                                              .FirstOrDefault();
-
                 var decimalPrecision = properties[i].GetCustomAttributes<Attributes.DecimalPrecisionAttribute>()
                                                     .FirstOrDefault();
 

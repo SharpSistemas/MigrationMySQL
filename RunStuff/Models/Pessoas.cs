@@ -18,5 +18,8 @@ namespace RunStuff.Models
 
         [TypeFieldBD(TypeField.DECIMAL)]
         public decimal Salario { get; set; }
+
+        [Ignore]
+        public int MyProperty { get; set; }
     }
 }
