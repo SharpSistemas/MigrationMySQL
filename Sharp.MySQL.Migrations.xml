@@ -9,6 +9,22 @@
             Defines a property as AutoIncrement. Property MUST be INT and NotNull (see about TypeFieldBDAttribute to set as NotNull).
             </summary>
         </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute">
+            <summary>
+            Attribute for decimal types to define the size and precision.
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute.DecimalSpaces">
+            <summary>
+            Number of spaces after comma (precision). This value takes spaces from Length (TypeFieldBD Size).
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute.#ctor(System.Int32)">
+            <summary>
+            Constructor of class
+            </summary>
+            <param name="decimalSpaces">Number of spaces after comma (precision). This value takes spaces from Length (TypeFieldBD Size).</param>
+        </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.PrimaryKeyAttribute">
             <summary>
             Defines a property as PrimaryKey. It's recommended to use with an INT property
@@ -104,6 +120,11 @@
         <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsNotNull">
             <summary>
             Is Not Null
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.DecimalPrecision">
+            <summary>
+            Is Decimal Property
             </summary>
         </member>
         <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.DefaultValue">
@@ -203,7 +224,12 @@
         </member>
         <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DECIMAL">
             <summary>
-            Decimal values
+            Decimal values. Pattern if TypeFieldBD.Size and DecimalPrecision.DecimalSpaces not defined: (12,3).
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.TIME">
+            <summary>
+            TIME values
             </summary>
         </member>
         <member name="T:Sharp.MySQL.Migrations.Core.TableMapper">
