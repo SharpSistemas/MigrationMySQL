@@ -15,5 +15,8 @@ namespace RunStuff.Models
         public Guid Uuid { get; set; }
         [TypeFieldBD(TypeField.VARCHAR, 60, false)]
         public string Nome { get; set; }
+
+        [TypeFieldBD(TypeField.DECIMAL)]
+        public decimal Salario { get; set; }
     }
 }
