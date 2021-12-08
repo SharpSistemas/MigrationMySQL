@@ -1,6 +1,5 @@
 ﻿using Sharp.MySQL.Migrations.Core.Models;
 using Sharp.MySQL.Migrations.Exceptions;
-using System;
 using System.Linq;
 using System.Text;
 
