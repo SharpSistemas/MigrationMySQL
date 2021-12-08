@@ -25,6 +25,7 @@ namespace Sharp.MySQL.Migrations.Attributes
         /// Sets the default value to be stored in database if the field is not filled
         /// </summary>
         public string DefaultValue { get; set; }
+
         /// <summary>
         /// Configure the fields in database.
         /// </summary>
