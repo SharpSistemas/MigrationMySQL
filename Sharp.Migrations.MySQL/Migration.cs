@@ -109,13 +109,28 @@ namespace Sharp.MySQL
 
                     int start = t.Type.IndexOf('(') + 1;
                     int end = t.Type.IndexOf(')');
+                    string type = t.Type.Substring(0, start - 1);
 
                     if (start > end) throw new System.InvalidOperationException($"Field type retrieved from MySQL was in an incorret format! {t}");
 
-                    if (!int.TryParse(t.Type.Substring(start, end - start), out int result)) continue;
+                    if (!int.TryParse(t.Type.Substring(start, end - start), out int result) && type.ToLower() != "decimal") continue;
+
+
+                    if (type == "decimal") //caso especial onde traz entre parênteres (X,Y)
+                    {
+                        var conteudoParenteses = t.Type.Substring(start, end - start);
+
+                        var partes = conteudoParenteses.Split(',');
+
+                        t.SizeField = int.Parse(partes[0]);
+                        t.DecimalPrecision = int.Parse(partes[0]);
+                        t.Type = type;
+
+                        continue;
+                    }
 
                     t.SizeField = result;
-                    t.Type = t.Type.Substring(0, start - 1);
+                    t.Type = type;
                 }
                 return tb;
             }
