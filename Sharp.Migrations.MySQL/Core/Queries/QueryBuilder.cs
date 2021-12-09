@@ -37,6 +37,9 @@ namespace Sharp.MySQL.Migrations.Core.Queries
 
                 //inserir tipo UNSIGNED
                 sb.Append($"{(colsToAdd[i].IsNotNull ? " NOT NULL " : " NULL ")}");
+
+                if (colsToAdd[i].DefaultValue != null) sb.Append($" DEFAULT {colsToAdd[i].DefaultValue} ");
+
                 if (colsToAdd[i].IsAI) sb.Append(" AUTO_INCREMENT ");
 
                 if (colsToAdd[i].IsPk) sb.Append($", PRIMARY KEY ({colsToAdd[i].FieldName}) ");
@@ -93,6 +96,9 @@ namespace Sharp.MySQL.Migrations.Core.Queries
 
                 if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
                 sb.Append($"{(c.IsNotNull ? " NOT NULL" : " NULL")}");
+                
+                if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
+
                 if (c.IsAI &&
                     c.TypeField == TypeField.INT &&
                     c.TypeField == TypeField.DECIMAL &&
@@ -125,6 +131,9 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                     c.TypeField != TypeField.DECIMAL &&
                     c.SizeField > 0) sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
                 sb.Append($"{(c.IsNotNull ? "NOT NULL " : "NULL ")}");
+
+                if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
+
                 if (c.IsAI) sb.Append("AUTO_INCREMENT ");
 
                 if (c.IsPk) sb.Append($", PRIMARY KEY ({c.FieldName}) ");
