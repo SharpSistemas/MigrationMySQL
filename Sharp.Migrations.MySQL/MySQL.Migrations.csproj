@@ -10,12 +10,12 @@
     <PackageProjectUrl>https://github.com/SharpSistemas/MigrationMySQL</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SharpSistemas/MigrationMySQL</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Sharp.MySQL.Migrations</RootNamespace>
     <AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
-    <Version>0.9.2</Version>
+    <Version>0.9.3</Version>
     <PackageId>Sharp.MySQL.Migrations</PackageId>
-    <PackageReleaseNotes>Pareado com o commit 434c52f</PackageReleaseNotes>
+    <PackageReleaseNotes>Pareado com o commit 4d4bacb</PackageReleaseNotes>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
 
