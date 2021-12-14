@@ -22,7 +22,7 @@ namespace Sharp.MySQL.Migrations.Attributes
         /// </summary>
         public bool NotNull { get; set; }
         /// <summary>
-        /// Sets the default value to be stored in database if the field is not filled
+        /// Sets the default value expression to be setted in the database
         /// </summary>
         public string DefaultValue { get; set; }
 
@@ -36,7 +36,8 @@ namespace Sharp.MySQL.Migrations.Attributes
             TypeField = typeField;
         }
         /// <summary>
-        /// Configure the fields in database.
+        /// Configure the fields in database. 
+        /// NotNull is set to False
         /// </summary>
         /// <param name="typeField">Sets the field type</param>
         /// <param name="size">Sets the field length</param>

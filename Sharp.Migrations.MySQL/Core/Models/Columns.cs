@@ -1,4 +1,6 @@
-﻿namespace Sharp.MySQL.Migrations.Core.Models
+﻿using Sharp.MySQL.Migrations.Attributes;
+
+namespace Sharp.MySQL.Migrations.Core.Models
 {
     /// <summary>
     /// Properties from a class that represent the columns in database

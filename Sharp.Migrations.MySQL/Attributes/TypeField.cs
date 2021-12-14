@@ -1,4 +1,4 @@
-﻿namespace Sharp.MySQL.Migrations.Core.Models
+﻿namespace Sharp.MySQL.Migrations.Attributes
 {
     /// <summary>
     /// Enums of field types in MySQL
