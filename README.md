@@ -7,4 +7,4 @@ Biblioteca simplificada para Migration em bancos de dados MySql/MariaDB
 
 [Documentação em Progresso]
 
-Veja o projeto de exemplo em: https://github.com/SharpSistemas/MigrationMySQL/tree/main/RunStuff
+Veja o projeto de exemplo em: [MigrationMySQL/RunStuff](https://github.com/SharpSistemas/MigrationMySQL/tree/main/RunStuff)
