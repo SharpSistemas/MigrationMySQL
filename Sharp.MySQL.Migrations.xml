@@ -35,6 +35,76 @@
             Defines a property as PrimaryKey. It's recommended to use with an INT property
             </summary>
         </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.TypeField">
+            <summary>
+            Enums of field types in MySQL
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NOT_SET">
+            <summary>
+            Field type not set
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.CHAR">
+            <summary>
+            CHAR type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NCHAR">
+            <summary>
+            CHAR type with unicode support.
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.VARCHAR">
+            <summary>
+            VARCHAR type variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NVARCHAR">
+            <summary>
+            VARCHAR type with unicode support and variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.INT">
+            <summary>
+            INT type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.BINARY">
+            <summary>
+            BINARY type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.VARBINARY">
+            <summary>
+            BINARY type with variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DATE">
+            <summary>
+            ONLY DATE type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DATETIME">
+            <summary>
+            DATETIME type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.TIMESTAMP">
+            <summary>
+            A number between '1970-01-01 00:00:01' UTC and '2038-01-19 03:14:07' UTC
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DECIMAL">
+            <summary>
+            Decimal values. Pattern if TypeFieldBD.Size and DecimalPrecision.DecimalSpaces not defined: (12,3).
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.TIME">
+            <summary>
+            TIME values
+            </summary>
+        </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.TypeFieldBD">
             <summary>
             Configure the fields in database.
@@ -57,23 +127,24 @@
         </member>
         <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.DefaultValue">
             <summary>
-            Sets the default value to be stored in database if the field is not filled
+            Sets the default value expression to be setted in the database
             </summary>
         </member>
-        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField)">
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField)">
             <summary>
             Configure the fields in database.
             </summary>
             <param name="typeField">Sets the field type</param>
         </member>
-        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField,System.Int32)">
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32)">
             <summary>
-            Configure the fields in database.
+            Configure the fields in database. 
+            NotNull is set to False
             </summary>
             <param name="typeField">Sets the field type</param>
             <param name="size">Sets the field length</param>
         </member>
-        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Core.Models.TypeField,System.Int32,System.Boolean,System.String)">
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32,System.Boolean,System.String)">
             <summary>
             Configure the fields in database.
             </summary>
@@ -165,76 +236,6 @@
         <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.ColumnsAdded">
             <summary>
             Indicates how many columns was added
-            </summary>
-        </member>
-        <member name="T:Sharp.MySQL.Migrations.Core.Models.TypeField">
-            <summary>
-            Enums of field types in MySQL
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NOT_SET">
-            <summary>
-            Field type not set
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.CHAR">
-            <summary>
-            CHAR type
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NCHAR">
-            <summary>
-            CHAR type with unicode support.
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.VARCHAR">
-            <summary>
-            VARCHAR type variable size
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.NVARCHAR">
-            <summary>
-            VARCHAR type with unicode support and variable size
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.INT">
-            <summary>
-            INT type
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.BINARY">
-            <summary>
-            BINARY type
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.VARBINARY">
-            <summary>
-            BINARY type with variable size
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DATE">
-            <summary>
-            ONLY DATE type
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DATETIME">
-            <summary>
-            DATETIME type
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.TIMESTAMP">
-            <summary>
-            A number between '1970-01-01 00:00:01' UTC and '2038-01-19 03:14:07' UTC
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.DECIMAL">
-            <summary>
-            Decimal values. Pattern if TypeFieldBD.Size and DecimalPrecision.DecimalSpaces not defined: (12,3).
-            </summary>
-        </member>
-        <member name="F:Sharp.MySQL.Migrations.Core.Models.TypeField.TIME">
-            <summary>
-            TIME values
             </summary>
         </member>
         <member name="T:Sharp.MySQL.Migrations.Core.TableMapper">
