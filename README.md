@@ -1,3 +1,3 @@
 # Migration - MySQL
 
-Biblioteca interna da SHARP SISTEMAS para Migration em MySQL
+Biblioteca simplificada para Migration em bancos de dados MySql/MariaDB
