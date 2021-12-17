@@ -93,11 +93,22 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                 if (colBd == null) continue;
                 sb.Append($" CHANGE COLUMN {colBd.Field} {colBd.Field} {colBd.Type} ");
 
-                sb.Append($" ({(c.SizeField > colBd.SizeField ? c.SizeField : colBd.SizeField)}) ");
+                if (colBd.Type == "decimal")
+                {
+                    int size = c.SizeField == 0 ? 12 : c.SizeField;
+                    int precision = c.DecimalPrecision == 0 ? 3 : c.DecimalPrecision;
 
-                if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
+                    sb.Append($" ({size},{precision}) ");
+                }
+
+                if (colBd.Type != "int" &&
+                   colBd.Type != "decimal" &&
+                   colBd.Type != "date" &&
+                   colBd.SizeField > 0) sb.Append($"( {c.SizeField} )");
+
+                //sb.Append($" ({(c.SizeField > colBd.SizeField ? c.SizeField : colBd.SizeField)}) ");
+
                 sb.Append($"{(c.IsNotNull ? " NOT NULL" : " NULL")}");
-                
                 if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
 
                 if (c.IsAI &&
@@ -130,7 +141,10 @@ namespace Sharp.MySQL.Migrations.Core.Queries
 
                 if (c.TypeField != TypeField.INT &&
                     c.TypeField != TypeField.DECIMAL &&
-                    c.SizeField > 0) sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT
+                    c.TypeField != TypeField.DATE &&
+                    c.SizeField > 0)
+                    sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT, DECIMAL, DATE
+
                 sb.Append($"{(c.IsNotNull ? "NOT NULL " : "NULL ")}");
 
                 if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
