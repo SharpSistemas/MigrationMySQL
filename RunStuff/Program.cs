@@ -13,10 +13,12 @@ namespace RunStuff
             // Creata an migration instance
             var migration = new Sharp.MySQL.Migration(mySQLFactory);
             // Add or change tables
-            var result = migration.Add<Pessoas>()
+            var result = migration.AddModel<Pessoas>()
+                                  .AddChange<SchemaChanges.Change_01_20211220>()
+                                  .AddChange<SchemaChanges.Change_02_20211222>()
                                   .Migrate();
 
-            foreach (var r in result)
+            foreach (var r in result.tables)
             {
                 Console.WriteLine(r.ColumnsAdded);
                 Console.WriteLine(r.WasCreated);
