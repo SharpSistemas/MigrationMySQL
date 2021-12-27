@@ -50,5 +50,14 @@ namespace RunStuff.Models
 
         [TypeFieldBD(TypeField.TIME)]
         public DateTime CargaHoraria { get; set; } //TIME NN
+
+        [TypeFieldBD(TypeField.VARCHAR, 100, NotNull = false, DefaultValue = "'54'")]
+        public DateTime Fock { get; set; } //TIME NN
+
+        [TypeFieldBD(TypeField.NVARCHAR,size:50,notNull:true,defaultValue: "'FTS'")]
+        public string TesteGetDate1 { get; set; }
+
+        [TypeFieldBD(TypeField.NVARCHAR, size: 50, notNull: true, defaultValue: "'SELECT CURDATE()'")]
+        public string TesteGetDate2 { get; set; }
     }
 }
