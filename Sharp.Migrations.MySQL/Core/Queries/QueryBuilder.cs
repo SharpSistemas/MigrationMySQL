@@ -3,6 +3,8 @@ using Sharp.MySQL.Migrations.Attributes;
 using Sharp.MySQL.Migrations.Exceptions;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
+using System;
 
 namespace Sharp.MySQL.Migrations.Core.Queries
 {
@@ -10,55 +12,52 @@ namespace Sharp.MySQL.Migrations.Core.Queries
     {
         public static string buildQueryCreateTable(TableMapper table)
         {
-            string queryCreate = $"CREATE TABLE {table.TableName} (";
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"CREATE TABLE {table.TableName} ( ");
 
-            var colsToAdd = table.Columns;
+            string idxPrimaryKey = "";
+            var idxsUnique = new List<string>();
 
-            var queryList = new string[colsToAdd.Length];
-            for (int i = 0; i < queryList.Length; i++)
+            foreach (var c in table.Columns)
             {
-                if (colsToAdd[i].IsPk && !colsToAdd[i].IsNotNull) throw new InvalidAttributeException($"PKs fields MUST be NOT NULL! Decorate it with TypeFieldBD. Field: {colsToAdd[i].FieldName}");
+                sb.Append($"{c.NameField} ");
+                sb.Append($"{c.TypeField} ");
 
-                var sb = new StringBuilder();
-
-                sb.Append($"{colsToAdd[i].FieldName} "); //field name
-                sb.Append($"{colsToAdd[i].TypeField} "); //field type
-                if (colsToAdd[i].TypeField == TypeField.DECIMAL)
+                if (c.DecimalPrecision != null) //Foi definida a precisão do campo
                 {
-                    int size = colsToAdd[i].SizeField == 0 ? 12 : colsToAdd[i].SizeField;
-                    int precision = colsToAdd[i].DecimalPrecision == 0 ? 3 : colsToAdd[i].DecimalPrecision;
-
-                    sb.Append($" ({size},{precision}) ");
+                    if (c.SizeField == null) throw new Exceptions.InvalidAttributeException($"Precision of field was defined, but its size not! {c.NameField}.");
+                    sb.Append($"({c.SizeField},{c.DecimalPrecision}) ");
+                }
+                else //Não foi definida a precisão do campo, então eu vejo se o sizeField não é nulo. Se não for, adiciona...
+                {
+                    if (c.SizeField != null) sb.Append($"({c.SizeField}) ");
                 }
 
-                if (colsToAdd[i].TypeField != TypeField.INT &&
-                    colsToAdd[i].TypeField != TypeField.DECIMAL &&
-                    colsToAdd[i].SizeField > 0)
-                    sb.Append($"({colsToAdd[i].SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT e DECIMAL
+                if (c.NotNull) sb.Append("NOT NULL ");
+                else sb.Append("NULL ");
 
-                //inserir tipo UNSIGNED
-                sb.Append($"{(colsToAdd[i].IsNotNull ? " NOT NULL " : " NULL ")}");
+                if (c.DefaultValue != null) sb.Append($"DEFAULT {c.DefaultValue} ");
 
-                if (colsToAdd[i].DefaultValue != null) sb.Append($" DEFAULT {colsToAdd[i].DefaultValue} ");
+                if (c.IsUnique) idxsUnique.Add($"UNIQUE INDEX {c.NameField}_UNIQUE ({c.NameField} ASC)");
+                if (c.IsAI) sb.Append("AUTO_INCREMENT ");
+                if (c.IsPk) idxPrimaryKey = $"PRIMARY KEY ({c.NameField}) ";
+                sb.Append(", ");
+            }
+            if (!string.IsNullOrEmpty(idxPrimaryKey)) sb.Append($"{idxPrimaryKey}, ");
 
-                if (colsToAdd[i].IsAI) sb.Append(" AUTO_INCREMENT ");
-
-                if (colsToAdd[i].IsPk) sb.Append($", PRIMARY KEY ({colsToAdd[i].FieldName}) ");
-                if (colsToAdd[i].IsUnique) sb.Append($", UNIQUE INDEX {colsToAdd[i].FieldName} ({colsToAdd[i].FieldName} ASC) VISIBLE");
-
-                queryList[i] = sb.ToString();
+            if (idxsUnique.Count > 0)
+            {
+                foreach (var i in idxsUnique) sb.Append($"{i}, ");
             }
 
-            var queryFull = $"{queryCreate} {string.Join(',', queryList)})";
+            var queryFull = $@"{sb.ToString().Trim()
+                                             .Trim(',')}) ";
+
             return queryFull;
         }
         public static string buildQueryAlterTable(TableMapper tbMapper, TableSchema[] colunasBD)
         {
-            //var indexDB = Helpers.getTableIndexes(tbMapper.TableName);
-
-            //if (!needChanges(tbMapper, colunasBD, indexDB)) return string.Empty;
-
-            var colsToAdd = tbMapper.Columns.Where(col => !colunasBD.Any(o => o.Field.ToLower() == col.FieldName.ToLower()))
+            var colsToAdd = tbMapper.Columns.Where(col => !colunasBD.Any(o => o.Field.ToLower() == col.NameField.ToLower()))
                                             .ToArray();
 
             StringBuilder sb = new StringBuilder();
@@ -66,96 +65,153 @@ namespace Sharp.MySQL.Migrations.Core.Queries
             sb.Append($"ALTER TABLE {tbMapper.TableName} ");
 
             //função responsável por montar a parte de ADD COLUMNS
-            if (colsToAdd.Length > 0)
-            {
-                sb.Append(buildAddColumnsAlterTable(colsToAdd));
-                sb.Append(',');
-            }
+            if (colsToAdd.Length > 0) sb.Append($"{buildAddColumnsAlterTable(colsToAdd)}, ");
 
             //função responsável por montar a parte onde vai realizar alterações nas colunas
             sb.Append(buildChangeColumnsAlterTable(tbMapper.Columns, colunasBD));
 
-            query = sb.ToString();
+            query = sb.ToString().Trim()
+                                 .Trim(',');
 
             return query;
         }
         private static string buildChangeColumnsAlterTable(Columns[] colunasModel, TableSchema[] colunasBD)
         {
             StringBuilder sb = new StringBuilder();
+
             var tableHasPrimaryKey = false;
             tableHasPrimaryKey = colunasBD.Any(o => o.Key == "PRI"); //uma das colunas já tem primary key
 
-            foreach (var c in colunasModel)
+            string idxPrimaryKey = "";
+            var idxsUnique = new List<string>();
+
+            var colsToChange = diffColumnsModel_ColumnsDB(colunasModel, colunasBD);
+
+            foreach (var c in colsToChange)
             {
-                var colBd = colunasBD.FirstOrDefault(o => o.Field == c.FieldName); //não achou nenhum campo no banco com a propriedade informada. 
+                var colBd = colunasBD.FirstOrDefault(o => o.Field == c.NameField); //não achou nenhum campo no banco com a propriedade informada. 
                                                                                    //Talvez removido/alterado no BD manualmente. Se é um campo novo na model já estará no ADD COLUMN
 
                 if (colBd == null) continue;
-                sb.Append($" CHANGE COLUMN {colBd.Field} {colBd.Field} {colBd.Type} ");
+                sb.Append($" CHANGE COLUMN {colBd.Field} {colBd.Field} {colBd.Type} "); //não se altera o nome nem o tipo, por isso eu uso a referência do campo no banco de dados
 
-                if (colBd.Type == "decimal")
+                if (c.DecimalPrecision != null)
                 {
-                    int size = c.SizeField == 0 ? 12 : c.SizeField;
-                    int precision = c.DecimalPrecision == 0 ? 3 : c.DecimalPrecision;
-
-                    sb.Append($" ({size},{precision}) ");
+                    if (c.DecimalPrecision < colBd.DecimalPrecision) throw new InvalidAttributeException($"Precision defined in model is smaller than the existant in database. {c.NameField}");
+                    if (c.SizeField == null) throw new InvalidAttributeException($"Precision of field was defined, but its size not! {c.NameField}.");
+                    sb.Append($"({c.SizeField},{c.DecimalPrecision}) ");
                 }
+                else
+                {
+                    if (c.SizeField < colBd.SizeField) throw new InvalidAttributeException($"Size field defined in model is smaller than the existant in database {c.NameField}");
+                    if (c.SizeField != null) sb.Append($"({c.SizeField}) ");
+                }
+                if (c.NotNull) sb.Append("NOT NULL ");
+                else sb.Append("NULL ");
 
-                if (colBd.Type != "int" &&
-                   colBd.Type != "decimal" &&
-                   colBd.Type != "date" &&
-                   colBd.SizeField > 0) sb.Append($"( {c.SizeField} )");
+                if (c.DefaultValue != null) sb.Append($"DEFAULT {c.DefaultValue} ");
 
-                //sb.Append($" ({(c.SizeField > colBd.SizeField ? c.SizeField : colBd.SizeField)}) ");
-
-                sb.Append($"{(c.IsNotNull ? " NOT NULL" : " NULL")}");
-                if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
-
-                if (c.IsAI &&
-                    c.TypeField == TypeField.INT &&
-                    c.TypeField == TypeField.DECIMAL &&
-                    c.IsNotNull &&
-                    !colBd.Extra.Contains("auto_increment")) sb.Append(" AUTO_INCREMENT ");
-
-                if (c.IsUnique && colBd.Key == "") sb.Append($" ADD UNIQUE INDEX {colBd.Field}_UNIQUE ({colBd.Field} ASC) VISIBLE,");
-                if (c.IsPk && colBd.Key == "" && (!tableHasPrimaryKey)) sb.Append($" ADD PRIMARY KEY ({c.FieldName}) ");
-                sb.Append(',');
+                if (c.IsUnique) idxsUnique.Add($"ADD UNIQUE INDEX {c.NameField}_UNIQUE ({c.NameField} ASC)");
+                if (c.IsAI) sb.Append("AUTO_INCREMENT ");
+                if (c.IsPk) idxPrimaryKey = $"ADD PRIMARY KEY ({c.NameField}) ";
+                sb.Append(", ");
             }
-            return sb.ToString().Trim(',');
+            return sb.ToString().Trim(' ')
+                                .Trim(',');
+        }
+        private static Columns[] diffColumnsModel_ColumnsDB(Columns[] colunasModel, TableSchema[] colunasBD)
+        {
+            if (colunasModel == null || colunasBD == null) return null;
+            if (colunasModel.Length == 0 || colunasBD.Length == 0) return null;
+
+            //vai trazer só colunas que batem o nome... se algo não bater, a coluna vai passar pelo addcolumn
+            var colsToVerify = colunasModel.Where(col => colunasBD.Any(o => o.Field.ToLower() == col.NameField.ToLower()))
+                                           .ToArray();
+
+            var colsDiff = new List<Columns>();
+            foreach (var c in colsToVerify)
+            {
+                var colBd = colunasBD.FirstOrDefault(o => o.Field == c.NameField);
+
+                if (c.DecimalPrecision > colBd.DecimalPrecision)
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+                if (c.SizeField > colBd.SizeField)
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+                if (c.DefaultValue != colBd.Default)
+                {
+                    var val1 = c.DefaultValue.Trim('\'');
+                    var val2 = colBd.Default.Trim('\'');
+
+                    if (val1 == val2) continue;
+                    colsDiff.Add(c);
+                    continue;
+                }
+                if ((c.NotNull && colBd.Null == "YES") || (!c.NotNull && colBd.Null == "NO"))
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+                if (c.IsPk && colBd.Key != "PRI")
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+                if (c.IsAI && !colBd.Extra.Contains("auto_increment"))
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+            }
+            return colsDiff.ToArray();
         }
         private static string buildAddColumnsAlterTable(Columns[] colsToAdd)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
+            string idxPrimaryKey = "";
+            var idxsUnique = new List<string>();
+
             foreach (var c in colsToAdd)
             {
-                sb.Append($"ADD COLUMN {c.FieldName} ");
+                sb.Append($"ADD COLUMN {c.NameField} ");
                 sb.Append($"{c.TypeField} ");
 
-                if (c.TypeField == TypeField.DECIMAL)
+                if (c.DecimalPrecision != null) //Foi definida a precisão do campo
                 {
-                    int size = c.SizeField == 0 ? 12 : c.SizeField;
-                    int precision = c.DecimalPrecision == 0 ? 3 : c.DecimalPrecision;
-
-                    sb.Append($" ({size},{precision}) ");
+                    if (c.SizeField == null) throw new Exceptions.InvalidAttributeException($"Precision of field was defined, but its size not! {c.NameField}.");
+                    sb.Append($"({c.SizeField},{c.DecimalPrecision}) ");
+                }
+                else //Não foi definida a precisão do campo, então eu vejo se o sizeField não é nulo. Se não for, adiciona...
+                {
+                    if (c.SizeField != null) sb.Append($"({c.SizeField}) ");
                 }
 
-                if (c.TypeField != TypeField.INT &&
-                    c.TypeField != TypeField.DECIMAL &&
-                    c.TypeField != TypeField.DATE &&
-                    c.SizeField > 0)
-                    sb.Append($"({c.SizeField}) "); //tamanho do campo se for >0 e se for diferente de INT, DECIMAL, DATE
+                if (c.NotNull) sb.Append("NOT NULL ");
+                else sb.Append("NULL ");
 
-                sb.Append($"{(c.IsNotNull ? "NOT NULL " : "NULL ")}");
+                if (c.DefaultValue != null) sb.Append($"DEFAULT {c.DefaultValue} ");
 
-                if (c.DefaultValue != null) sb.Append($" DEFAULT {c.DefaultValue} ");
-
+                if (c.IsUnique) idxsUnique.Add($"ADD UNIQUE INDEX {c.NameField}_UNIQUE ({c.NameField} ASC)");
                 if (c.IsAI) sb.Append("AUTO_INCREMENT ");
-
-                if (c.IsPk) sb.Append($", PRIMARY KEY ({c.FieldName}) ");
-                if (c.IsUnique) sb.Append($", UNIQUE INDEX {c.FieldName} ({c.FieldName} ASC) VISIBLE");
+                if (c.IsPk) idxPrimaryKey = $"ADD PRIMARY KEY ({c.NameField}) ";
+                sb.Append(", ");
             }
-            var queryAdd = sb.ToString();
-            return queryAdd;
+            if (!string.IsNullOrEmpty(idxPrimaryKey)) sb.Append($"{idxPrimaryKey}, ");
+
+            if (idxsUnique.Count > 0)
+            {
+                foreach (var i in idxsUnique) sb.Append($"{i}, ");
+            }
+
+            var queryFull = $@"{sb.ToString().Trim()
+                                             .Trim(',')} ";
+
+            return queryFull;
         }
     }
 }
