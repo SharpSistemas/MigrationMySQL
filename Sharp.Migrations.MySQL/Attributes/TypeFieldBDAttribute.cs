@@ -16,7 +16,7 @@ namespace Sharp.MySQL.Migrations.Attributes
         /// <summary>
         /// Sets the field length
         /// </summary>
-        public int SizeField { get; set; }
+        public int? SizeField { get; set; }
         /// <summary>
         /// Define if it will be NOT NULL if true or NULL if false
         /// </summary>
@@ -52,14 +52,14 @@ namespace Sharp.MySQL.Migrations.Attributes
         /// </summary>
         /// <param name="typeField">Sets the field type</param>
         /// <param name="size">Sets the field length</param>
-        /// <param name="isNullable">Sets the default value to be stored in database if the field no be filled</param>
+        /// <param name="notNull">Sets the default value to be stored in database if the field no be filled</param>
         /// <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
-        public TypeFieldBD(TypeField typeField, int size, bool isNullable, string defaultValue = null)
+        public TypeFieldBD(TypeField typeField, int size, bool notNull, string defaultValue = null)
         {
             if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
             TypeField = typeField;
             SizeField = size;
-            NotNull = isNullable;
+            NotNull = notNull;
             DefaultValue = defaultValue;
         }
         private bool isValidTipoCampoBD(TypeField typeField)
