@@ -10,7 +10,7 @@ namespace Sharp.MySQL.Migrations.Core.Models
         /// <summary>
         /// Property name
         /// </summary>
-        public string FieldName { get; set; }
+        public string NameField { get; set; }
         /// <summary>
         /// Is Primary Key
         /// </summary>
@@ -26,11 +26,11 @@ namespace Sharp.MySQL.Migrations.Core.Models
         /// <summary>
         /// Is Not Null
         /// </summary>
-        public bool IsNotNull { get; set; }
+        public bool NotNull { get; set; }
         /// <summary>
         /// Is Decimal Property
         /// </summary>
-        public int DecimalPrecision { get; set; }
+        public int? DecimalPrecision { get; set; }
         /// <summary>
         /// Default value
         /// </summary>
@@ -42,6 +42,6 @@ namespace Sharp.MySQL.Migrations.Core.Models
         /// <summary>
         /// Property size
         /// </summary>
-        public int SizeField { get; set; }
+        public int? SizeField { get; set; }
     }
 }
