@@ -123,7 +123,7 @@ namespace Sharp.MySQL
                         var partes = conteudoParenteses.Split(',');
 
                         t.SizeField = int.Parse(partes[0]);
-                        t.DecimalPrecision = int.Parse(partes[0]);
+                        t.DecimalPrecision = int.Parse(partes[1]);
                         t.Type = type;
 
                         continue;
