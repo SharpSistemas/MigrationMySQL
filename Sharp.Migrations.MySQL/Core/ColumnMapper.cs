@@ -32,22 +32,32 @@ namespace Sharp.MySQL.Migrations.Core
 
                 var typeField = properties[i].GetCustomAttributes<Attributes.TypeFieldBD>()
                                              .FirstOrDefault();
-                var decimalPrecision = properties[i].GetCustomAttributes<Attributes.DecimalPrecisionAttribute>()
+
+                var decimalPrecisionAttribute = properties[i].GetCustomAttributes<Attributes.DecimalPrecisionAttribute>()
                                                     .FirstOrDefault();
+
+                int? sizeField;
+                int? decimalSpaces;
+
+                if (typeField.SizeField == null) sizeField = null;
+                else sizeField = typeField.SizeField;
+
+                if (decimalPrecisionAttribute == null) decimalSpaces = null;
+                else decimalSpaces = decimalPrecisionAttribute.DecimalSpaces;
 
                 if (typeField == null) throw new Exceptions.NullAttributeException($"No field definition. Decorate it with 'TypeFieldBD'. Field: {properties[i].Name}");
 
                 columns[i] = new Columns
                 {
-                    FieldName = properties[i].Name,
+                    NameField = properties[i].Name,
                     IsPk = Attribute.IsDefined(properties[i], typeof(Attributes.PrimaryKeyAttribute)),
                     IsUnique = Attribute.IsDefined(properties[i], typeof(Attributes.UniqueAttribute)),
                     IsAI = Attribute.IsDefined(properties[i], typeof(Attributes.AutoIncrementAttribute)),
-                    SizeField = typeField.SizeField,
                     TypeField = typeField.TypeField,
-                    IsNotNull = typeField.NotNull,
+                    NotNull = typeField.NotNull,
                     DefaultValue = typeField.DefaultValue,
-                    DecimalPrecision = decimalPrecision == null ? 0 : decimalPrecision.DecimalSpaces,
+                    SizeField = sizeField,
+                    DecimalPrecision = decimalSpaces,
                 };
             }
 
