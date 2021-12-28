@@ -143,8 +143,8 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                 }
                 if (c.DefaultValue != colBd.Default)
                 {
-                    var val1 = c.DefaultValue.Trim('\'');
-                    var val2 = colBd.Default.Trim('\'');
+                    var val1 = c.DefaultValue.Trim('\''); 
+                    var val2 = colBd.Default.Trim('\''); //default values in mysql cames with ''
 
                     if (val1 == val2) continue;
                     colsDiff.Add(c);
