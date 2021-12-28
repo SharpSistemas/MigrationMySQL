@@ -28,8 +28,15 @@ namespace Sharp.MySQL
             tables = new List<TableMapper>();
         }
 
+
+        /// <summary>
+        /// Function to add models to migration
+        /// </summary>
+        /// <typeparam name="T">Model class</typeparam>
+        /// <returns>A list of table mapper</returns>
         [Obsolete]
         public Migration Add<T>() => AddModel<T>();
+
         /// <summary>
         /// Function to add models to migration
         /// </summary>
@@ -40,6 +47,12 @@ namespace Sharp.MySQL
             tables.Add(TableMapper.FromType<T>());
             return this;
         }
+
+        /// <summary>
+        /// Adds schemas changes to be executed in Migration
+        /// </summary>
+        /// <typeparam name="T">Change to be executed</typeparam>
+        /// <returns>The object</returns>
 
         public Migration AddChange<T>() where T : ISchemaChange
         {
@@ -59,7 +72,7 @@ namespace Sharp.MySQL
         /// Fuction that executes the migration
         /// </summary>
         /// <returns>An array of table result</returns>
-        public MigrationRresult Migrate()
+        public MigrationResult Migrate()
         {
             // Migrate Tables
             var result = tables.Select(t => migrateTable(t)).ToArray();
@@ -95,7 +108,7 @@ namespace Sharp.MySQL
                     conn.Execute(@"UPDATE schema_changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
                 }
 
-                return new MigrationRresult()
+                return new MigrationResult()
                 {
                     tables = result,
                     FirstSchemaVersion = minVersion,
