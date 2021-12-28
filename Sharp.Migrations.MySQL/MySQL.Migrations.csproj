@@ -23,6 +23,10 @@
     <DocumentationFile>..\Sharp.MySQL.Migrations.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\desen\Documents\GitHub\MigrationMySQL\Sharp.Migrations.MySQL\Sharp.MySQL.Migrations.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Core\Interfaces1\**" />
     <EmbeddedResource Remove="Core\Interfaces1\**" />
