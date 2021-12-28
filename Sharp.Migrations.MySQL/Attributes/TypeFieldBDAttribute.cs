@@ -1,5 +1,4 @@
-﻿using Sharp.MySQL.Migrations.Core.Models;
-using Sharp.MySQL.Migrations.Exceptions;
+﻿using Sharp.MySQL.Migrations.Exceptions;
 using System;
 
 namespace Sharp.MySQL.Migrations.Attributes
