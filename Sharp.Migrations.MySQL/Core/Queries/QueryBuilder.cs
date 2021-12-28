@@ -3,6 +3,7 @@ using Sharp.MySQL.Migrations.Exceptions;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System;
 
 namespace Sharp.MySQL.Migrations.Core.Queries
 {
@@ -87,8 +88,8 @@ namespace Sharp.MySQL.Migrations.Core.Queries
 
             foreach (var c in colsToChange)
             {
-                var colBd = colunasBD.FirstOrDefault(o => o.Field == c.NameField); //não achou nenhum campo no banco com a propriedade informada. 
-                                                                                   //Talvez removido/alterado no BD manualmente. Se é um campo novo na model já estará no ADD COLUMN
+                var colBd = colunasBD.FirstOrDefault(o => string.Equals(o.Field, c.NameField, StringComparison.InvariantCultureIgnoreCase)); //não achou nenhum campo no banco com a propriedade informada. 
+                                                                                                                                             //Talvez removido/alterado no BD manualmente. Se é um campo novo na model já estará no ADD COLUMN
 
                 if (colBd == null) continue;
                 sb.Append($" CHANGE COLUMN {colBd.Field} {colBd.Field} {colBd.Type} "); //não se altera o nome nem o tipo, por isso eu uso a referência do campo no banco de dados
@@ -123,13 +124,14 @@ namespace Sharp.MySQL.Migrations.Core.Queries
             if (colunasModel.Length == 0 || colunasBD.Length == 0) return null;
 
             //vai trazer só colunas que batem o nome... se algo não bater, a coluna vai passar pelo addcolumn
-            var colsToVerify = colunasModel.Where(col => colunasBD.Any(o => o.Field.ToLower() == col.NameField.ToLower()))
-                                           .ToArray();
+
+            var colsToVerify = colunasModel.Where(col => colunasBD.Any(o => string.Equals(o.Field, col.NameField, StringComparison.InvariantCultureIgnoreCase)))
+                                            .ToArray();
 
             var colsDiff = new List<Columns>();
             foreach (var c in colsToVerify)
             {
-                var colBd = colunasBD.FirstOrDefault(o => o.Field == c.NameField);
+                var colBd = colunasBD.FirstOrDefault(o => string.Equals(o.Field, c.NameField, StringComparison.InvariantCultureIgnoreCase));
 
                 if (c.DecimalPrecision > colBd.DecimalPrecision)
                 {
@@ -138,15 +140,6 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                 }
                 if (c.SizeField > colBd.SizeField)
                 {
-                    colsDiff.Add(c);
-                    continue;
-                }
-                if (c.DefaultValue != colBd.Default)
-                {
-                    var val1 = c.DefaultValue.Trim('\''); 
-                    var val2 = colBd.Default.Trim('\''); //default values in mysql cames with ''
-
-                    if (val1 == val2) continue;
                     colsDiff.Add(c);
                     continue;
                 }
@@ -165,6 +158,13 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                     colsDiff.Add(c);
                     continue;
                 }
+
+                var val1 = c.DefaultValue == null ? null : c.DefaultValue.Trim('\'');
+                var val2 = colBd.Default == null ? null : colBd.Default.Trim('\'');
+
+                if (val1 == val2) continue;
+                colsDiff.Add(c);
+                continue;
             }
             return colsDiff.ToArray();
         }
