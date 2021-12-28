@@ -1,0 +1,435 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sharp.MySQL.Migrations</name>
+    </assembly>
+    <members>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.AutoIncrementAttribute">
+            <summary>
+            Defines a property as AutoIncrement. Property MUST be INT and NotNull (see about TypeFieldBDAttribute to set as NotNull).
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute">
+            <summary>
+            Attribute for decimal types to define the size and precision.
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute.DecimalSpaces">
+            <summary>
+            Number of spaces after comma (precision). This value takes spaces from Length (TypeFieldBD Size).
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute.#ctor(System.Int32)">
+            <summary>
+            Constructor of class
+            </summary>
+            <param name="decimalSpaces">Number of spaces after comma (precision). This value takes spaces from Length (TypeFieldBD Size).</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.IgnoreAttribute">
+            <summary>
+            Attribute to bem used to exclude fields from migration
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.PrimaryKeyAttribute">
+            <summary>
+            Defines a property as PrimaryKey. It's recommended to use with an INT property
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.TypeField">
+            <summary>
+            Enums of field types in MySQL
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NOT_SET">
+            <summary>
+            Field type not set
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.CHAR">
+            <summary>
+            CHAR type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NCHAR">
+            <summary>
+            CHAR type with unicode support.
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.VARCHAR">
+            <summary>
+            VARCHAR type variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.NVARCHAR">
+            <summary>
+            VARCHAR type with unicode support and variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.INT">
+            <summary>
+            INT type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.BINARY">
+            <summary>
+            BINARY type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.VARBINARY">
+            <summary>
+            BINARY type with variable size
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DATE">
+            <summary>
+            ONLY DATE type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DATETIME">
+            <summary>
+            DATETIME type
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.TIMESTAMP">
+            <summary>
+            A number between '1970-01-01 00:00:01' UTC and '2038-01-19 03:14:07' UTC
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.DECIMAL">
+            <summary>
+            Decimal values. Pattern if TypeFieldBD.Size and DecimalPrecision.DecimalSpaces not defined: (12,3).
+            </summary>
+        </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.TIME">
+            <summary>
+            TIME values
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.TypeFieldBD">
+            <summary>
+            Configure the fields in database.
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.TypeField">
+            <summary>
+            Sets the field type
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.SizeField">
+            <summary>
+            Sets the field length
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.NotNull">
+            <summary>
+            Define if it will be NOT NULL if true or NULL if false
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.DefaultValue">
+            <summary>
+            Sets the default value expression to be setted in the database
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32)">
+            <summary>
+            Configure the fields in database. 
+            NotNull is set to False
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="size">Sets the field length</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32,System.Boolean,System.String)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="size">Sets the field length</param>
+            <param name="notNull">Sets the default value to be stored in database if the field no be filled</param>
+            <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.UniqueAttribute">
+            <summary>
+            Defines a property as Unique INDEX.
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.ColumnMapper">
+            <summary>
+            Models classes mapper attributes
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.ColumnMapper.Columns">
+            <summary>
+            Properties from the class
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.ISchemaChange">
+            <summary>
+            Interface base to class SchemaChanges
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.ISchemaChange.SchemaVersion">
+            <summary>
+            Version of changes
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Core.ISchemaChange.Initialize(Sharp.MySQL.ConnectionFactory)">
+            <summary>
+            Initializes the schema change
+            </summary>
+            <param name="factory">A connection to MySQLDB</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Core.ISchemaChange.CanRun">
+            <summary>
+            Sets if the change can runs
+            </summary>
+            <returns>True or false</returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Core.ISchemaChange.Run">
+            <summary>
+            Execute changes
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.Columns">
+            <summary>
+            Properties from a class that represent the columns in database
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.NameField">
+            <summary>
+            Property name
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsPk">
+            <summary>
+            Is Primary Key
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsAI">
+            <summary>
+            Is Auto Increment
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.IsUnique">
+            <summary>
+            Is Unique Index
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.NotNull">
+            <summary>
+            Is Not Null
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.DecimalPrecision">
+            <summary>
+            Is Decimal Property
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.DefaultValue">
+            <summary>
+            Default value
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.TypeField">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Columns.SizeField">
+            <summary>
+            Property size
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.MigrationResult">
+            <summary>
+            Result of migration
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.MigrationResult.FirstSchemaVersion">
+            <summary>
+            First version
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.MigrationResult.LastSchemaVersion">
+            <summary>
+            Last version of changes
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.MigrationResult.tables">
+            <summary>
+            Results of tables migration
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.Schema_Changes">
+            <summary>
+            Table in database to store schema changes
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Schema_Changes.Schema_Id">
+            <summary>
+            Id of schema
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Schema_Changes.Schema_Version">
+            <summary>
+            Schema version
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.Schema_Changes.Schema_Changed">
+            <summary>
+            Datetime when the change occured
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.Models.TableResult">
+            <summary>
+            Result of migration
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasCreated">
+            <summary>
+            Indicates if the table was created
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasModified">
+            <summary>
+            Indicates if the table was modified
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.ColumnsAdded">
+            <summary>
+            Indicates how many columns was added
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Core.TableMapper">
+            <summary>
+            Class model that represents a table in database
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.TableMapper.TableName">
+            <summary>
+            Table name (class name)
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.TableMapper.Columns">
+            <summary>
+            Properties from a class that represent the columns in database
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Exceptions.InvalidAttributeException">
+            <summary>
+            Exception when is detect an invalid use of a property
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Exceptions.InvalidAttributeException.#ctor(System.String)">
+            <summary>
+            Constructor of the exception
+            </summary>
+            <param name="message">Message to show when the exception is thrown</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Exceptions.NullAttributeException">
+            <summary>
+            Exception when is detect an null property
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Exceptions.NullAttributeException.#ctor(System.String)">
+            <summary>
+            Constructor of the exception
+            </summary>
+            <param name="message">Message to show when the exception is thrown</param>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.Helpers.DapperHelper">
+            <summary>
+            Class with dapper helpers
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Helpers.DapperHelper.MapMySqlGuidHandler">
+            <summary>
+            Maps a handler to Guids in MySQL, which allows to store guids as BINARY
+            </summary>
+        </member>
+        <member name="T:Sharp.MySQL.Migrations.TypesHandler.MySqlGuidHandler">
+            <summary>
+            Guid handler for mysqls db
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.TypesHandler.MySqlGuidHandler.Parse(System.Object)">
+            <summary>
+            Parsers a binary value to guid
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.TypesHandler.MySqlGuidHandler.SetValue(System.Data.IDbDataParameter,System.Guid)">
+            <summary>
+            Parsers a guid value to binary
+            </summary>
+            <param name="parameter">Object in bytearray</param>
+            <param name="value">Guid to be converted in bytearray</param>
+        </member>
+        <member name="T:Sharp.MySQL.ConnectionFactory">
+            <summary>
+            Connection factory class
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.ConnectionFactory.ConnectionString">
+            <summary>
+            Connection string to reach the MySQL database
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.ConnectionFactory.#ctor(System.String)">
+            <summary>
+            Constructor to fill the ConnectionString
+            </summary>
+            <param name="cnnString">Connection string to reach the MySQL database</param>
+        </member>
+        <member name="M:Sharp.MySQL.ConnectionFactory.GetConnection">
+            <summary>
+            Opens a connection to the database
+            </summary>
+            <returns>An open connection of the database</returns>
+        </member>
+        <member name="T:Sharp.MySQL.Migration">
+            <summary>
+            Class that contains functions to migration
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.#ctor(Sharp.MySQL.ConnectionFactory)">
+            <summary>
+            Constructor class
+            </summary>
+            <param name="dbFac">Connection factory</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.Add``1">
+            <summary>
+            Function to add models to migration
+            </summary>
+            <typeparam name="T">Model class</typeparam>
+            <returns>A list of table mapper</returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.AddModel``1">
+            <summary>
+            Function to add models to migration
+            </summary>
+            <typeparam name="T">Model class</typeparam>
+            <returns>A list of table mapper</returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.AddChange``1">
+            <summary>
+            Adds schemas changes to be executed in Migration
+            </summary>
+            <typeparam name="T">Change to be executed</typeparam>
+            <returns>The object</returns>
+        </member>
+        <member name="M:Sharp.MySQL.Migration.Migrate">
+            <summary>
+            Fuction that executes the migration
+            </summary>
+            <returns>An array of table result</returns>
+        </member>
+    </members>
+</doc>
