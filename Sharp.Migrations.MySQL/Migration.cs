@@ -16,7 +16,7 @@ namespace Sharp.MySQL
     {
         private ConnectionFactory dbFac { get; }
         private List<TableMapper> tables;
-        private Dictionary<int, ISchemaChange> schemaVersions;
+        private Dictionary<int, ISchemaChange> schemaVersions = new Dictionary<int, ISchemaChange>();
 
         /// <summary>
         /// Constructor class
@@ -46,6 +46,7 @@ namespace Sharp.MySQL
             ISchemaChange change = Activator.CreateInstance<T>();
 
             var version = change.SchemaVersion;
+
             if (schemaVersions.ContainsKey(version)) throw new InvalidOperationException($"Schema {version} is already defined");
 
             schemaVersions.Add(version, change);
@@ -64,24 +65,43 @@ namespace Sharp.MySQL
             var result = tables.Select(t => migrateTable(t)).ToArray();
             tables.Clear();
 
-            if (schemaVersions.Count > 0)
+            using (var conn = dbFac.GetConnection())
             {
-                // criar table schemaVersions? 
-                migrateTable(TableMapper.FromType<Migrations.Core.Models.Schema_Changes>());
+                if (schemaVersions.Count > 0)
+                {
+                    // criar table schemaVersions?
+                    migrateTable(TableMapper.FromType<Migrations.Core.Models.Schema_Changes>());
+
+                    var existingControllRow = conn.Query<int>("SELECT Schema_Id FROM schema_changes", null).ToArray();
+                    if (existingControllRow.Length == 0) conn.Execute("INSERT INTO schema_changes (Schema_Version) VALUES(0)", null);
+                }
+
+                // Migrate Changes
+                int minVersion = 0, maxVersion = 0;
+
+                minVersion = conn.QueryFirstOrDefault<int>("SELECT Schema_Version as minVersion FROM schema_changes ORDER BY Schema_Version DESC LIMIT 1", null);
+
+                var versions = schemaVersions.Where(o => o.Key > minVersion)
+                                             .OrderBy(o => o.Key)
+                                             .Select(o => o.Value);
+
+                foreach (var vers in versions)
+                {
+                    // if !CanRun exception
+                    if (!vers.CanRun()) throw new Exception($"Schema_Change version {vers.SchemaVersion} is not allowed to run!");
+                    vers.Initialize(dbFac);
+                    vers.Run();
+
+                    conn.Execute(@"UPDATE schema_changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
+                }
+
+                return new MigrationRresult()
+                {
+                    tables = result,
+                    FirstSchemaVersion = minVersion,
+                    LastSchemaVersion = maxVersion,
+                };
             }
-
-            // Migrate Changes
-            int minVersion = 0, maxVersion = 0;
-
-            // if !CanRun exception
-
-
-            return new MigrationRresult()
-            {
-                tables = result,
-                FirstSchemaVersion = minVersion,
-                LastSchemaVersion = maxVersion,
-            };
         }
 
         private TableResult migrateTable(TableMapper tableMapper)
