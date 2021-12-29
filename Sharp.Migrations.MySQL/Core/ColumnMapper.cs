@@ -27,17 +27,22 @@ namespace Sharp.MySQL.Migrations.Core
             {
                 var ignoredAttribute = properties[i].GetCustomAttributes<Attributes.IgnoreAttribute>()
                                                     .FirstOrDefault();
-
                 if (ignoredAttribute != null) continue;
+
+                string nameField = properties[i].Name;
+                int? sizeField;
+                int? decimalSpaces;
+
+                var nameAttribute = properties[i].GetCustomAttributes<Attributes.NameAttribute>()
+                                                 .FirstOrDefault();
 
                 var typeField = properties[i].GetCustomAttributes<Attributes.TypeFieldBD>()
                                              .FirstOrDefault();
 
                 var decimalPrecisionAttribute = properties[i].GetCustomAttributes<Attributes.DecimalPrecisionAttribute>()
-                                                    .FirstOrDefault();
+                                                             .FirstOrDefault();
 
-                int? sizeField;
-                int? decimalSpaces;
+                if (nameAttribute != null) nameField = nameAttribute.Name;
 
                 if (typeField.SizeField == null) sizeField = null;
                 else sizeField = typeField.SizeField;
@@ -49,7 +54,7 @@ namespace Sharp.MySQL.Migrations.Core
 
                 columns[i] = new Columns
                 {
-                    NameField = properties[i].Name,
+                    NameField = nameField,
                     IsPk = Attribute.IsDefined(properties[i], typeof(Attributes.PrimaryKeyAttribute)),
                     IsUnique = Attribute.IsDefined(properties[i], typeof(Attributes.UniqueAttribute)),
                     IsAI = Attribute.IsDefined(properties[i], typeof(Attributes.AutoIncrementAttribute)),
