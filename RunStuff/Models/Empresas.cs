@@ -7,7 +7,7 @@ namespace RunStuff.Models
 {
     public class Empresas
     {
-        [TypeFieldBD(TypeField.INT, NotNull = true)]
+        [TypeFieldBD(TypeField.INT, notNull: true)]
         public int Id { get; set; }
 
         [TypeFieldBD(TypeField.BINARY, 16)]

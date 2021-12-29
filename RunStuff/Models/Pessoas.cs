@@ -3,42 +3,44 @@ using System;
 
 namespace RunStuff.Models
 {
+    [Name("fuckthispeople")]
     public class Pessoas
     {
         [PrimaryKey]
-        [TypeFieldBD(TypeField.INT, NotNull = true)]
+        [TypeFieldBD(TypeField.INT, notNull: true)]
         [AutoIncrement]
+        [Name("Codguin")]
         public int Codigo { get; set; } //INT AI PK NN
 
-        [TypeFieldBD(TypeField.BINARY, 16, NotNull = true)]
+        [TypeFieldBD(TypeField.BINARY, 16, notNull: true)]
         [Unique]
         public Guid Uuid { get; set; } //BINARY(16) UQ NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 100, NotNull = true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 100, notNull: true)]
         public string Nome { get; set; } //NVARCHAR(100) NN
 
-        [TypeFieldBD(TypeField.CHAR, 8, NotNull = true)]
+        [TypeFieldBD(TypeField.CHAR, 8, notNull: true)]
         public string CEP { get; set; } //CHAR(8) NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 100, NotNull = true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 100, notNull: true)]
         public string Logradouro { get; set; } //NVARCHAR(100) NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 50, NotNull = true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 50, notNull: true)]
         public string Bairro { get; set; } //NVARCHAR (50) NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 50, NotNull = true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 50, notNull: true)]
         public string Cidade { get; set; } //NVARCHAR (50) NN
 
-        [TypeFieldBD(TypeField.CHAR, 2, NotNull = true)]
+        [TypeFieldBD(TypeField.CHAR, 2, notNull: true)]
         public string UF { get; set; } //CHAR(2) NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 30, NotNull = true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 30, notNull: true)]
         public string Numero { get; set; } //NVARCHAR(30) NN
 
-        [TypeFieldBD(TypeField.NVARCHAR, 50, DefaultValue = "'NÃO INFORMADO'")]
+        [TypeFieldBD(TypeField.NVARCHAR, 50, defaultValue: "'NÃO INFORMADO'")]
         public string Complemento { get; set; } //NVARCHAR(50) DEFAULT VALUE 'NÃO INFORMADO'
 
-        [TypeFieldBD(TypeField.DECIMAL, 12, NotNull = true)]
+        [TypeFieldBD(TypeField.DECIMAL, 12, notNull: true)]
         [DecimalPrecision(3)]
         public decimal Salario { get; set; } //DECIMAL(12,3)
 
@@ -51,10 +53,10 @@ namespace RunStuff.Models
         [TypeFieldBD(TypeField.TIME)]
         public DateTime CargaHoraria { get; set; } //TIME NN
 
-        [TypeFieldBD(TypeField.VARCHAR, 100, NotNull = false, DefaultValue = "'54'")]
+        [TypeFieldBD(TypeField.VARCHAR, 100, notNull: false, defaultValue: "'54'")]
         public DateTime Fock { get; set; } //TIME NN
 
-        [TypeFieldBD(TypeField.NVARCHAR,size:50,notNull:true,defaultValue: "'FTS'")]
+        [TypeFieldBD(TypeField.NVARCHAR, size: 50, notNull: true, defaultValue: "'FTS'")]
         public string TesteGetDate1 { get; set; }
 
         [TypeFieldBD(TypeField.NVARCHAR, size: 50, notNull: true, defaultValue: "'SELECT CURDATE()'")]

@@ -8,7 +8,7 @@ namespace RunStuff.Models
     public class Pedidos
     {
         [PrimaryKey]
-        [TypeFieldBD(TypeField.INT, NotNull = true)]
+        [TypeFieldBD(TypeField.INT, notNull: true)]
         public int Id { get; set; }
 
         [Unique]
