@@ -6,24 +6,25 @@ namespace Sharp.MySQL.Migrations.Attributes
     /// <summary>
     /// Configure the fields in database.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class TypeFieldBD : Attribute
     {
         /// <summary>
         /// Sets the field type
         /// </summary>
-        public TypeField TypeField { get; set; }
+        public TypeField TypeField { get; private set; }
         /// <summary>
         /// Sets the field length
         /// </summary>
-        public int? SizeField { get; set; }
+        public int? SizeField { get; private set; }
         /// <summary>
         /// Define if it will be NOT NULL if true or NULL if false
         /// </summary>
-        public bool NotNull { get; set; }
+        public bool NotNull { get; private set; }
         /// <summary>
         /// Sets the default value expression to be setted in the database
         /// </summary>
-        public string DefaultValue { get; set; }
+        public string DefaultValue { get; private set; }
 
         /// <summary>
         /// Configure the fields in database.
@@ -33,6 +34,17 @@ namespace Sharp.MySQL.Migrations.Attributes
         {
             if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
             TypeField = typeField;
+        }
+        /// <summary>
+        /// Configure the fields in database.
+        /// </summary>
+        /// <param name="typeField">Sets the field type</param>
+        /// <param name="notNull">Define if it will be NOT NULL if true or NULL if false</param>
+        public TypeFieldBD(TypeField typeField, bool notNull)
+        {
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
+            this.NotNull = notNull;
         }
         /// <summary>
         /// Configure the fields in database. 
@@ -51,7 +63,7 @@ namespace Sharp.MySQL.Migrations.Attributes
         /// </summary>
         /// <param name="typeField">Sets the field type</param>
         /// <param name="size">Sets the field length</param>
-        /// <param name="notNull">Sets the default value to be stored in database if the field no be filled</param>
+        /// <param name="notNull">Define if it will be NOT NULL if true or NULL if false</param>
         /// <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
         public TypeFieldBD(TypeField typeField, int size, bool notNull, string defaultValue = null)
         {
@@ -61,6 +73,20 @@ namespace Sharp.MySQL.Migrations.Attributes
             NotNull = notNull;
             DefaultValue = defaultValue;
         }
+        /// <summary>
+        /// Configure the fields in database.
+        /// </summary>
+        /// <param name="typeField">Sets the field type</param>
+        /// <param name="size">Sets the field length</param>
+        /// <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
+        public TypeFieldBD(TypeField typeField, int size, string defaultValue = null)
+        {
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
+            SizeField = size;
+            DefaultValue = defaultValue;
+        }
+
         private bool isValidTipoCampoBD(TypeField typeField)
         {
             if (typeField == TypeField.NOT_SET) return false;
