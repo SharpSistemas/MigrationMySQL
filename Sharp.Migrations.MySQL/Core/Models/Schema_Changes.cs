@@ -12,20 +12,20 @@ namespace Sharp.MySQL.Migrations.Core.Models
         /// Id of schema
         /// </summary>
         [PrimaryKey]
-        [TypeFieldBD(typeField: TypeField.INT, NotNull = true)]
+        [TypeFieldBD(typeField: TypeField.INT, notNull: true)]
         [AutoIncrement]
         public int Schema_Id { get; set; }
 
         /// <summary>
         /// Schema version
         /// </summary>
-        [TypeFieldBD(typeField: TypeField.INT, NotNull = true)]
+        [TypeFieldBD(typeField: TypeField.INT, notNull: true)]
         public string Schema_Version { get; set; }
 
         /// <summary>
         /// Datetime when the change occured
         /// </summary>
-        [TypeFieldBD(TypeField.DATETIME)]
+        [TypeFieldBD(typeField: TypeField.DATETIME, notNull: true)]
         public DateTime Schema_Changed { get; set; }
     }
 }
