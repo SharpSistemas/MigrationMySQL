@@ -3,7 +3,7 @@
 namespace Sharp.MySQL.Migrations.Attributes
 {
     /// <summary>
-    /// Attribute to set the name of a class or field. If not set, the name will be the property or de class
+    /// Attribute to set the name of a class or field. If not set, the name will be the property or class
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public class NameAttribute : Attribute
