@@ -1,5 +1,7 @@
 ﻿
 using Sharp.MySQL.Migrations.Core.Models;
+using System;
+using System.Linq;
 
 namespace Sharp.MySQL.Migrations.Core
 {
@@ -23,11 +25,16 @@ namespace Sharp.MySQL.Migrations.Core
         internal static TableMapper FromType<T>()
         {
             var table = typeof(T);
+            var tableName = table.Name;
             var cols = ColumnMapper.FromType<T>().Columns;
+
+            var nameAttr = Attribute.GetCustomAttributes(table).FirstOrDefault(o => o.GetType() == typeof(Attributes.NameAttribute));
+
+            if (nameAttr != null) tableName = ((Attributes.NameAttribute)nameAttr).Name;
 
             var tm = new TableMapper
             {
-                TableName = table.Name,
+                TableName = tableName,
                 Columns = cols,
             };
 
