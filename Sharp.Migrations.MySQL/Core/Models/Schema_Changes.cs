@@ -25,7 +25,7 @@ namespace Sharp.MySQL.Migrations.Core.Models
         /// <summary>
         /// Datetime when the change occured
         /// </summary>
-        [TypeFieldBD(typeField: TypeField.DATETIME, notNull: true)]
+        [TypeFieldBD(typeField: TypeField.DATETIME, notNull: false)]
         public DateTime Schema_Changed { get; set; }
     }
 }
