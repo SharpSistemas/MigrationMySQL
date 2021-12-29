@@ -11,7 +11,7 @@
         </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute">
             <summary>
-            Attribute for decimal types to define the size and precision.
+            Attribute for decimal types to define the precision.
             </summary>
         </member>
         <member name="P:Sharp.MySQL.Migrations.Attributes.DecimalPrecisionAttribute.DecimalSpaces">
@@ -32,7 +32,7 @@
         </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.NameAttribute">
             <summary>
-            Attribute to set the name of a class or field. If not set, the name will be the property or de class
+            Attribute to set the name of a class or field. If not set, the name will be the property or class
             </summary>
         </member>
         <member name="P:Sharp.MySQL.Migrations.Attributes.NameAttribute.Name">
