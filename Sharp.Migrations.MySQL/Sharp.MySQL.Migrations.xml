@@ -30,6 +30,22 @@
             Attribute to bem used to exclude fields from migration
             </summary>
         </member>
+        <member name="T:Sharp.MySQL.Migrations.Attributes.NameAttribute">
+            <summary>
+            Attribute to set the name of a class or field. If not set, the name will be the property or de class
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Attributes.NameAttribute.Name">
+            <summary>
+            Name to be set
+            </summary>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.NameAttribute.#ctor(System.String)">
+            <summary>
+            Constructor of class
+            </summary>
+            <param name="name">Name to be set</param>
+        </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.PrimaryKeyAttribute">
             <summary>
             Defines a property as PrimaryKey. It's recommended to use with an INT property
@@ -136,6 +152,13 @@
             </summary>
             <param name="typeField">Sets the field type</param>
         </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Boolean)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="notNull">Define if it will be NOT NULL if true or NULL if false</param>
+        </member>
         <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32)">
             <summary>
             Configure the fields in database. 
@@ -150,7 +173,15 @@
             </summary>
             <param name="typeField">Sets the field type</param>
             <param name="size">Sets the field length</param>
-            <param name="notNull">Sets the default value to be stored in database if the field no be filled</param>
+            <param name="notNull">Define if it will be NOT NULL if true or NULL if false</param>
+            <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
+        </member>
+        <member name="M:Sharp.MySQL.Migrations.Attributes.TypeFieldBD.#ctor(Sharp.MySQL.Migrations.Attributes.TypeField,System.Int32,System.String)">
+            <summary>
+            Configure the fields in database.
+            </summary>
+            <param name="typeField">Sets the field type</param>
+            <param name="size">Sets the field length</param>
             <param name="defaultValue">Sets the default value to be stored in database if the field is not filled</param>
         </member>
         <member name="T:Sharp.MySQL.Migrations.Attributes.UniqueAttribute">
