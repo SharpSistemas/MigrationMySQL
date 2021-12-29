@@ -3,7 +3,7 @@
 namespace Sharp.MySQL.Migrations.Attributes
 {
     /// <summary>
-    /// Attribute for decimal types to define the size and precision.
+    /// Attribute for decimal types to define the precision.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class DecimalPrecisionAttribute : Attribute
