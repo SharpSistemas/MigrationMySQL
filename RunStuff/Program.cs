@@ -10,7 +10,6 @@ namespace RunStuff
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             // Create a factory and store in the D.I.
             var mySQLFactory = new Sharp.MySQL.ConnectionFactory("Server=127.0.0.1;Port=3306;Uid=root;Pwd=5501;Database=portalsharp");
 
@@ -29,9 +28,11 @@ namespace RunStuff
 
             foreach (var r in result.tables)
             {
-                Console.WriteLine(r.ColumnsAdded);
-                Console.WriteLine(r.WasCreated);
-                Console.WriteLine(r.WasModified);
+                Console.WriteLine($"Table: {r.TableName}");
+                Console.WriteLine($"Columns added: {r.ColumnsAdded}");
+                Console.WriteLine($"Table Created: {r.WasCreated}");
+                Console.WriteLine($"Table Modified: {r.WasModified}");
+                Console.WriteLine("---------------------------------");
             }
         }
     }
