@@ -6,6 +6,10 @@
     public class TableResult
     {
         /// <summary>
+        /// Table name
+        /// </summary>
+        public string TableName { get; set; }
+        /// <summary>
         /// Indicates if the table was created
         /// </summary>
         public bool WasCreated { get; set; }

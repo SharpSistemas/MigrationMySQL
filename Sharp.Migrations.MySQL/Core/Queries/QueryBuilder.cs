@@ -58,6 +58,9 @@ namespace Sharp.MySQL.Migrations.Core.Queries
         {
             var colsToAdd = tbMapper.Columns.Where(col => !colunasBD.Any(o => o.Field.ToLower() == col.NameField.ToLower()))
                                             .ToArray();
+            var colsToChange = diffColumnsModel_ColumnsDB(tbMapper.Columns, colunasBD);
+
+            if (colsToAdd.Length == 0 && colsToChange.Length == 0) return string.Empty;
 
             StringBuilder sb = new StringBuilder();
             string query = "";
@@ -66,8 +69,8 @@ namespace Sharp.MySQL.Migrations.Core.Queries
             //função responsável por montar a parte de ADD COLUMNS
             if (colsToAdd.Length > 0) sb.Append($"{buildAddColumnsAlterTable(colsToAdd)}, ");
 
-            //função responsável por montar a parte onde vai realizar alterações nas colunas
-            sb.Append(buildChangeColumnsAlterTable(tbMapper.Columns, colunasBD));
+            //Analisa diferença entre as colunas-model e colunas-banco
+            if (colsToChange.Length > 0) buildChangeColumnsAlterTable(colsToChange, colunasBD);
 
             query = sb.ToString().Trim()
                                  .Trim(',');
@@ -77,9 +80,6 @@ namespace Sharp.MySQL.Migrations.Core.Queries
         private static string buildChangeColumnsAlterTable(Columns[] colunasModel, TableSchema[] colunasBD)
         {
             StringBuilder sb = new StringBuilder();
-
-            var tableHasPrimaryKey = false;
-            tableHasPrimaryKey = colunasBD.Any(o => o.Key == "PRI"); //uma das colunas já tem primary key
 
             string idxPrimaryKey = "";
             var idxsUnique = new List<string>();

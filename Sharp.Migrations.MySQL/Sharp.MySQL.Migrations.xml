@@ -321,6 +321,11 @@
             Result of migration
             </summary>
         </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.TableName">
+            <summary>
+            Table name
+            </summary>
+        </member>
         <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasCreated">
             <summary>
             Indicates if the table was created

@@ -130,6 +130,7 @@ namespace Sharp.MySQL
                 var result = db.Execute(query, db);
                 return new TableResult
                 {
+                    TableName = tableMapper.TableName,
                     ColumnsAdded = tableMapper.Columns.Length,
                     WasCreated = true,
                     WasModified = false,
@@ -141,12 +142,21 @@ namespace Sharp.MySQL
             var colunasBD = getTableSchema(tbMapper.TableName);
             var query = QueryBuilder.buildQueryAlterTable(tbMapper, colunasBD);
 
+            if (string.IsNullOrWhiteSpace(query)) return new TableResult
+            {
+                TableName = tbMapper.TableName,
+                ColumnsAdded = 0,
+                WasCreated = false,
+                WasModified = false,
+            };
+
             using (var db = dbFac.GetConnection())
             {
                 var result = db.Execute(query, db);
 
                 return new TableResult
                 {
+                    TableName = tbMapper.TableName,
                     ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
                     WasModified = true,
                     WasCreated = false,
