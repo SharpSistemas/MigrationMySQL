@@ -16,10 +16,7 @@ namespace RunStuff.SchemaChanges
             this.factory = factory;
         }
 
-        public bool CanRun()
-        {
-            return true;
-        }
+        public Status CanRun() => Status.Ok;
 
         public void Run()
         {

@@ -1,5 +1,12 @@
 ﻿namespace Sharp.MySQL.Migrations.Core
 {
+    public enum Status
+    {
+        Ok,
+        Skip,
+        Abort,
+    }
+
     /// <summary>
     /// Interface base to class SchemaChanges
     /// </summary>
@@ -19,7 +26,7 @@
         /// Sets if the change can runs
         /// </summary>
         /// <returns>True or false</returns>
-        bool CanRun();
+        Status CanRun();
         /// <summary>
         /// Execute changes
         /// </summary>
