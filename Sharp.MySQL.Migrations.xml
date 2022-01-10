@@ -81,6 +81,11 @@
             VARCHAR type with unicode support and variable size
             </summary>
         </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.TINYINT">
+            <summary>
+            TINYINT type
+            </summary>
+        </member>
         <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.INT">
             <summary>
             INT type
@@ -319,6 +324,11 @@
         <member name="T:Sharp.MySQL.Migrations.Core.Models.TableResult">
             <summary>
             Result of migration
+            </summary>
+        </member>
+        <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.TableName">
+            <summary>
+            Table name
             </summary>
         </member>
         <member name="P:Sharp.MySQL.Migrations.Core.Models.TableResult.WasCreated">
