@@ -110,7 +110,7 @@ namespace Sharp.MySQL
                         vers.Run();
                     }
 
-                    conn.Execute(@"UPDATE schema_changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
+                    conn.Execute(@"UPDATE Schema_Version SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
                 }
 
                 return new MigrationResult()
