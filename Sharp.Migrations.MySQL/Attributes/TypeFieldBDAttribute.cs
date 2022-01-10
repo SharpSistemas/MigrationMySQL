@@ -87,6 +87,14 @@ namespace Sharp.MySQL.Migrations.Attributes
             DefaultValue = defaultValue;
         }
 
+        public TypeFieldBD(TypeField typeField, bool notNull, string defaultValue = null)
+        {
+            if (!isValidTipoCampoBD(typeField)) throw new InvalidAttributeException($"Invalid Attribute type! {typeField}");
+            TypeField = typeField;
+            NotNull = notNull;
+            DefaultValue = defaultValue;
+        }
+
         private bool isValidTipoCampoBD(TypeField typeField)
         {
             if (typeField == TypeField.NOT_SET) return false;
