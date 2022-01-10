@@ -85,14 +85,14 @@ namespace Sharp.MySQL
                     // criar table schemaVersions?
                     migrateTable(TableMapper.FromType<Migrations.Core.Models.Schema_Changes>());
 
-                    var existingControllRow = conn.Query<int>("SELECT Schema_Id FROM schema_changes", null).ToArray();
-                    if (existingControllRow.Length == 0) conn.Execute("INSERT INTO schema_changes (Schema_Version) VALUES(0)", null);
+                    var existingControllRow = conn.Query<int>("SELECT Schema_Id FROM Schema_Changes", null).ToArray();
+                    if (existingControllRow.Length == 0) conn.Execute("INSERT INTO Schema_Changes (Schema_Version) VALUES(0)", null);
                 }
 
                 // Migrate Changes
                 int minVersion = 0, maxVersion = 0;
 
-                minVersion = conn.QueryFirstOrDefault<int>("SELECT Schema_Version as minVersion FROM schema_changes ORDER BY Schema_Version DESC LIMIT 1", null);
+                minVersion = conn.QueryFirstOrDefault<int>("SELECT Schema_Version as minVersion FROM Schema_Changes ORDER BY Schema_Version DESC LIMIT 1", null);
 
                 var versions = schemaVersions.Where(o => o.Key > minVersion)
                                              .OrderBy(o => o.Key)
