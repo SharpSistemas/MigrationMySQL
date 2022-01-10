@@ -26,6 +26,10 @@
         /// </summary>
         NVARCHAR,
         /// <summary>
+        /// TINYINT type
+        /// </summary>
+        TINYINT,
+        /// <summary>
         /// INT type
         /// </summary>
         INT,
