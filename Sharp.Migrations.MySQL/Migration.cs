@@ -101,9 +101,14 @@ namespace Sharp.MySQL
                 foreach (var vers in versions)
                 {
                     // if !CanRun exception
-                    if (!vers.CanRun()) throw new Exception($"Schema_Change version {vers.SchemaVersion} is not allowed to run!");
-                    vers.Initialize(dbFac);
-                    vers.Run();
+                    var action = vers.CanRun();
+                    if (action == Status.Abort) throw new Exception($"Schema_Change version {vers.SchemaVersion} is not allowed to run!");
+
+                    if (action == Status.Ok)
+                    {
+                        vers.Initialize(dbFac);
+                        vers.Run();
+                    }
 
                     conn.Execute(@"UPDATE schema_changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
                 }

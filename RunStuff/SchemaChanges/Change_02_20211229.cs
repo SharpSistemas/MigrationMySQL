@@ -13,10 +13,7 @@ namespace RunStuff.SchemaChanges
 
         public int SchemaVersion => 2;
 
-        public bool CanRun()
-        {
-            return true;
-        }
+        public Status CanRun() => Status.Ok;
 
         public void Initialize(ConnectionFactory factory)
         {
