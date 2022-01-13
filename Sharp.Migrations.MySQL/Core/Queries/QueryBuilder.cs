@@ -70,7 +70,7 @@ namespace Sharp.MySQL.Migrations.Core.Queries
             if (colsToAdd.Length > 0) sb.Append($"{buildAddColumnsAlterTable(colsToAdd)}, ");
 
             //Analisa diferença entre as colunas-model e colunas-banco
-            if (colsToChange.Length > 0) buildChangeColumnsAlterTable(colsToChange, colunasBD);
+            if (colsToChange.Length > 0) sb.Append($"{buildChangeColumnsAlterTable(colsToChange, colunasBD)}, ");
 
             query = sb.ToString().Trim()
                                  .Trim(',');
