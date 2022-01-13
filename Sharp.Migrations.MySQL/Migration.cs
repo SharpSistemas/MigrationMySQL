@@ -109,8 +109,8 @@ namespace Sharp.MySQL
                         vers.Initialize(dbFac);
                         vers.Run();
                     }
-
-                    conn.Execute(@"UPDATE Schema_Version SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
+                    
+                    conn.Execute(@"UPDATE Schema_Changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
                 }
 
                 return new MigrationResult()
