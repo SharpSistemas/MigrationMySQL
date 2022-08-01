@@ -91,6 +91,11 @@
             INT type
             </summary>
         </member>
+        <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.BIGINT">
+            <summary>
+            BIGINT type
+            </summary>
+        </member>
         <member name="F:Sharp.MySQL.Migrations.Attributes.TypeField.BINARY">
             <summary>
             BINARY type
