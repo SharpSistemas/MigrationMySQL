@@ -109,7 +109,7 @@ namespace Sharp.MySQL
                         vers.Initialize(dbFac);
                         vers.Run();
                     }
-                    
+
                     conn.Execute(@"UPDATE Schema_Changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
                 }
 
@@ -132,14 +132,22 @@ namespace Sharp.MySQL
             string query = QueryBuilder.buildQueryCreateTable(tableMapper);
             using (var db = dbFac.GetConnection())
             {
-                var result = db.Execute(query, db);
-                return new TableResult
+                try
                 {
-                    TableName = tableMapper.TableName,
-                    ColumnsAdded = tableMapper.Columns.Length,
-                    WasCreated = true,
-                    WasModified = false,
-                };
+                    var result = db.Execute(query, db);
+                    return new TableResult
+                    {
+                        TableName = tableMapper.TableName,
+                        ColumnsAdded = tableMapper.Columns.Length,
+                        WasCreated = true,
+                        WasModified = false,
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error while executing create table. Your CREATE TABLE: {query}", ex);
+                }
+
             }
         }
         private TableResult ModifyTable(TableMapper tbMapper)
@@ -157,15 +165,23 @@ namespace Sharp.MySQL
 
             using (var db = dbFac.GetConnection())
             {
-                var result = db.Execute(query, db);
-
-                return new TableResult
+                try
                 {
-                    TableName = tbMapper.TableName,
-                    ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
-                    WasModified = true,
-                    WasCreated = false,
-                };
+                    var result = db.Execute(query, db);
+
+                    return new TableResult
+                    {
+                        TableName = tbMapper.TableName,
+                        ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
+                        WasModified = true,
+                        WasCreated = false,
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error while executing alter table. Your ALTER TABLE: {query}", ex);
+                    throw;
+                }
             }
         }
         private bool existeTabela(string tableName)
