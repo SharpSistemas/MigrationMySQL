@@ -34,6 +34,10 @@
         /// </summary>
         INT,
         /// <summary>
+        /// BIGINT type
+        /// </summary>
+        BIGINT,
+        /// <summary>
         /// BINARY type
         /// </summary>
         BINARY,
