@@ -32,10 +32,12 @@ namespace Sharp.MySQL.Migrations.Core.Queries
                     if (c.SizeField != null) sb.Append($"({c.SizeField}) ");
                 }
 
-                if (c.NotNull) sb.Append("NOT NULL ");
-                else sb.Append("NULL ");
+                if (c.NotNull) sb.Append(" NOT NULL ");
+                else sb.Append(" NULL ");
 
                 if (c.DefaultValue != null) sb.Append($"DEFAULT {c.DefaultValue} ");
+                else
+                    if (!c.NotNull) sb.Append(" DEFAULT NULL ");
 
                 if (c.IsUnique) idxsUnique.Add($"UNIQUE INDEX {c.NameField}_UNIQUE ({c.NameField} ASC)");
                 if (c.IsAI) sb.Append("AUTO_INCREMENT ");
