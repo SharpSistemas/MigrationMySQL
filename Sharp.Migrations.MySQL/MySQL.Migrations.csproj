@@ -15,8 +15,10 @@
     <AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
     <Version>0.10.3</Version>
     <PackageId>Sharp.MySQL.Migrations</PackageId>
-    <PackageReleaseNotes>Pareado com o commit f791680</PackageReleaseNotes>
+    <PackageReleaseNotes>Pareado com o commit e89c900</PackageReleaseNotes>
     <Nullable>warnings</Nullable>
+    <FileVersion>0.10.4.0</FileVersion>
+    <AssemblyVersion>0.10.4.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
