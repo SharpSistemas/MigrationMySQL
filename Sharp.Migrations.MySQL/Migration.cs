@@ -188,7 +188,7 @@ namespace Sharp.MySQL
         {
             using (var db = dbFac.GetConnection())
             {
-                var tb = db.QueryFirstOrDefault("show tables like @tableName", new { tableName });
+                var tb = db.QueryFirstOrDefault<string>("show tables like @tableName", new { tableName });
                 return tb != null;
             }
         }

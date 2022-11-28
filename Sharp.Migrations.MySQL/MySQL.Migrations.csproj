@@ -1,31 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Authors>SHARP SISTEMAS</Authors>
-    <Company>SHARP SISTEMAS</Company>
-    <Product>Migrations - MySQL</Product>
-    <Description>Migration package for MySql databases</Description>
-    <Copyright>Copyright (c) SHARP SISTEMAS</Copyright>
-    <PackageProjectUrl>https://github.com/SharpSistemas/MigrationMySQL</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SharpSistemas/MigrationMySQL</RepositoryUrl>
-    <RepositoryType>GIT</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RootNamespace>Sharp.MySQL.Migrations</RootNamespace>
-    <AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
-    <Version>0.10.4</Version>
-    <PackageId>Sharp.MySQL.Migrations</PackageId>
-    <PackageReleaseNotes>Pareado com o commit e89c900</PackageReleaseNotes>
-    <Nullable>warnings</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>10</LangVersion>
+		<Authors>SHARP SISTEMAS</Authors>
+		<Company>SHARP SISTEMAS</Company>
+		<Product>Migrations - MySQL</Product>
+		<Description>Migration package for MySql databases</Description>
+		<Copyright>Copyright (c) SHARP SISTEMAS</Copyright>
+		<PackageProjectUrl>https://github.com/SharpSistemas/MigrationMySQL</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SharpSistemas/MigrationMySQL</RepositoryUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RootNamespace>Sharp.MySQL.Migrations</RootNamespace>
+		<AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
+		<Version>0.11.0</Version>
+		<PackageId>Sharp.MySQL.Migrations</PackageId>
+		<PackageReleaseNotes>Pareado com o commit e89c900</PackageReleaseNotes>
+		<Nullable>warnings</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>..\Sharp.MySQL.Migrations.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>..\Sharp.MySQL.Migrations.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="MySql.Data" Version="8.0.30" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="MySql.Data" Version="8.0.30" />
+	</ItemGroup>
 
 </Project>
