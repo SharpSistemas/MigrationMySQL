@@ -44,7 +44,11 @@ namespace Sharp.MySQL
         /// <returns>A list of table mapper</returns>
         public Migration AddModel<T>()
         {
-            tables.Add(TableMapper.FromType<T>());
+            var tableInfo = TableMapper.FromType<T>();
+
+            if (tables.Any(t => t.TableName == tableInfo.TableName)) throw new InvalidOperationException($"Table `{tableInfo.TableName}` already added");
+
+            tables.Add(tableInfo);
             return this;
         }
 
@@ -74,85 +78,88 @@ namespace Sharp.MySQL
         /// <returns>An array of table result</returns>
         public MigrationResult Migrate()
         {
+            using var cnn = dbFac.GetConnection();
+
+            var allTables = cnn.Query<string>("SHOW TABLES;").ToArray();
+
+            // Sempre cria
+            this.AddModel<Migrations.Core.Models.Schema_Changes>();
             // Migrate Tables
-            var result = tables.Select(t => migrateTable(t)).ToArray();
+            var result = tables.Select(t => migrateTable(cnn, allTables, t)).ToArray();
             tables.Clear();
 
-            using (var conn = dbFac.GetConnection())
+            var minVersionArr = cnn.Query<int>("SELECT Schema_Version as minVersion FROM Schema_Changes ORDER BY Schema_Version DESC LIMIT 1", null).ToArray();
+            int minVersion, maxVersion = 0;
+            if (minVersionArr.Length == 0)
             {
-                if (schemaVersions.Count > 0)
-                {
-                    // criar table schemaVersions?
-                    migrateTable(TableMapper.FromType<Migrations.Core.Models.Schema_Changes>());
-
-                    var existingControllRow = conn.Query<int>("SELECT Schema_Id FROM Schema_Changes", null).ToArray();
-                    if (existingControllRow.Length == 0) conn.Execute("INSERT INTO Schema_Changes (Schema_Version) VALUES(0)", null);
-                }
-
-                // Migrate Changes
-                int minVersion = 0, maxVersion = 0;
-
-                minVersion = conn.QueryFirstOrDefault<int>("SELECT Schema_Version as minVersion FROM Schema_Changes ORDER BY Schema_Version DESC LIMIT 1", null);
-
-                var versions = schemaVersions.Where(o => o.Key > minVersion)
-                                             .OrderBy(o => o.Key)
-                                             .Select(o => o.Value);
-
-                foreach (var vers in versions)
-                {
-                    // if !CanRun exception
-                    var action = vers.CanRun();
-                    if (action == Status.Abort) throw new Exception($"Schema_Change version {vers.SchemaVersion} is not allowed to run!");
-
-                    if (action == Status.Ok)
-                    {
-                        vers.Initialize(dbFac);
-                        vers.Run();
-                    }
-
-                    conn.Execute(@"UPDATE Schema_Changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime", new { schemaVersion = vers.SchemaVersion, schemaDateTime = DateTime.Now });
-                }
-
-                return new MigrationResult()
-                {
-                    tables = result,
-                    FirstSchemaVersion = minVersion,
-                    LastSchemaVersion = maxVersion,
-                };
+                // Não tem
+                cnn.Execute("INSERT INTO Schema_Changes (Schema_Version) VALUES(0)", null);
+                minVersion = 0;
             }
+            else
+            {
+                minVersion = minVersionArr[0];
+            }
+            var versions = schemaVersions.Where(o => o.Key > minVersion)
+                                         .OrderBy(o => o.Key)
+                                         .Select(o => o.Value);
+
+            foreach (var vers in versions)
+            {
+                // if !CanRun exception
+                var action = vers.CanRun();
+                if (action == Status.Abort) throw new Exception($"Schema_Change version {vers.SchemaVersion} is not allowed to run!");
+
+                if (action == Status.Ok)
+                {
+                    vers.Initialize(dbFac);
+                    vers.Run();
+                }
+
+                cnn.Execute(@"UPDATE Schema_Changes SET Schema_Version=@schemaVersion, Schema_Changed=@schemaDateTime",
+                    new
+                    {
+                        schemaVersion = vers.SchemaVersion,
+                        schemaDateTime = DateTime.Now
+                    });
+            }
+
+            return new MigrationResult()
+            {
+                tables = result,
+                FirstSchemaVersion = minVersion,
+                LastSchemaVersion = maxVersion,
+            };
         }
 
-        private TableResult migrateTable(TableMapper tableMapper)
+        private TableResult migrateTable(IDbConnection cnn, string[] allTables, TableMapper tableMapper)
         {
-            if (!existeTabela(tableMapper.TableName)) return CreateTable(tableMapper);
-            return ModifyTable(tableMapper);
+            if (!existeTabela(allTables, tableMapper.TableName)) return CreateTable(cnn, tableMapper);
+            return ModifyTable(cnn, tableMapper);
         }
-        private TableResult CreateTable(TableMapper tableMapper)
+
+        private TableResult CreateTable(IDbConnection cnn, TableMapper tableMapper)
         {
             string query = QueryBuilder.buildQueryCreateTable(tableMapper);
-            using (var db = dbFac.GetConnection())
+            try
             {
-                try
+                var result = cnn.Execute(query, cnn);
+                return new TableResult
                 {
-                    var result = db.Execute(query, db);
-                    return new TableResult
-                    {
-                        TableName = tableMapper.TableName,
-                        ColumnsAdded = tableMapper.Columns.Length,
-                        WasCreated = true,
-                        WasModified = false,
-                    };
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error while executing create table. Your CREATE TABLE: {query}", ex);
-                }
-
+                    TableName = tableMapper.TableName,
+                    ColumnsAdded = tableMapper.Columns.Length,
+                    WasCreated = true,
+                    WasModified = false,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error while executing create table. Your CREATE TABLE: {query}", ex);
             }
         }
-        private TableResult ModifyTable(TableMapper tbMapper)
+        private TableResult ModifyTable(IDbConnection cnn, TableMapper tbMapper)
         {
-            var colunasBD = getTableSchema(tbMapper.TableName);
+            var colunasBD = getTableSchema(cnn, tbMapper.TableName);
             var query = QueryBuilder.buildQueryAlterTable(tbMapper, colunasBD);
 
             if (string.IsNullOrWhiteSpace(query)) return new TableResult
@@ -163,81 +170,69 @@ namespace Sharp.MySQL
                 WasModified = false,
             };
 
-            using (var db = dbFac.GetConnection())
+            try
             {
-                try
-                {
-                    var result = db.Execute(query, db);
+                var result = cnn.Execute(query);
 
-                    return new TableResult
-                    {
-                        TableName = tbMapper.TableName,
-                        ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
-                        WasModified = true,
-                        WasCreated = false,
-                    };
-                }
-                catch (Exception ex)
+                return new TableResult
                 {
-                    throw new Exception($"Error while executing alter table. Your ALTER TABLE: {query}", ex);
-                    throw;
-                }
+                    TableName = tbMapper.TableName,
+                    ColumnsAdded = tbMapper.Columns.Length - colunasBD.Length,
+                    WasModified = true,
+                    WasCreated = false,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error while executing alter table. Your ALTER TABLE: {query}", ex);
+                throw;
             }
         }
-        private bool existeTabela(string tableName)
+        private bool existeTabela(string[] allTables, string tableName)
         {
-            using (var db = dbFac.GetConnection())
-            {
-                var tb = db.QueryFirstOrDefault<string>("show tables like @tableName", new { tableName });
-                return tb != null;
-            }
+            return allTables.Any(t => t.Equals(tableName)); // CaseSensitive?
+            //var tb = cnn.QueryFirstOrDefault<string>("show tables like @tableName", new { tableName });
+            //return tb != null;
         }
-        private TableIndex[] getTableIndexes(string tableName)
+        private TableIndex[] getTableIndexes(IDbConnection cnn, string tableName)
         {
-            using (var db = dbFac.GetConnection())
-            {
-                var indexes = db.Query<TableIndex>($"show index from {tableName}", new { tableName }).ToArray();
-                return indexes;
-            }
+            var indexes = cnn.Query<TableIndex>($"show index from {tableName}", new { tableName }).ToArray();
+            return indexes;
         }
-        private TableSchema[] getTableSchema(string tableName)
+        private TableSchema[] getTableSchema(IDbConnection cnn, string tableName)
         {
-            if (!existeTabela(tableName)) return null;
-            using (var db = dbFac.GetConnection())
-            {
-                var tb = db.Query<TableSchema>($"describe {tableName}").ToArray();
+            var tb = cnn.Query<TableSchema>($"describe {tableName}").ToArray();
 
-                foreach (var t in tb)
+            foreach (var t in tb)
+            {
+                if (!t.Type.Contains('(') || !t.Type.Contains(')')) continue;
+
+                int start = t.Type.IndexOf('(') + 1;
+                int end = t.Type.IndexOf(')');
+                string type = t.Type.Substring(0, start - 1);
+
+                if (start > end) throw new System.InvalidOperationException($"Field type retrieved from MySQL was in an incorret format! {t}");
+
+                if (!int.TryParse(t.Type.Substring(start, end - start), out int result) && type.ToLower() != "decimal") continue;
+
+
+                if (type == "decimal") //caso especial onde traz entre parênteres (X,Y)
                 {
-                    if (!t.Type.Contains('(') || !t.Type.Contains(')')) continue;
+                    var conteudoParenteses = t.Type.Substring(start, end - start);
 
-                    int start = t.Type.IndexOf('(') + 1;
-                    int end = t.Type.IndexOf(')');
-                    string type = t.Type.Substring(0, start - 1);
+                    var partes = conteudoParenteses.Split(',');
 
-                    if (start > end) throw new System.InvalidOperationException($"Field type retrieved from MySQL was in an incorret format! {t}");
-
-                    if (!int.TryParse(t.Type.Substring(start, end - start), out int result) && type.ToLower() != "decimal") continue;
-
-
-                    if (type == "decimal") //caso especial onde traz entre parênteres (X,Y)
-                    {
-                        var conteudoParenteses = t.Type.Substring(start, end - start);
-
-                        var partes = conteudoParenteses.Split(',');
-
-                        t.SizeField = int.Parse(partes[0]);
-                        t.DecimalPrecision = int.Parse(partes[1]);
-                        t.Type = type;
-
-                        continue;
-                    }
-
-                    t.SizeField = result;
+                    t.SizeField = int.Parse(partes[0]);
+                    t.DecimalPrecision = int.Parse(partes[1]);
                     t.Type = type;
+
+                    continue;
                 }
-                return tb;
+
+                t.SizeField = result;
+                t.Type = type;
             }
+            return tb;
         }
     }
 }
