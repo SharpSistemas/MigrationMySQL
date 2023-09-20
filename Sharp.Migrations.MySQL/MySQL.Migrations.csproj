@@ -14,7 +14,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RootNamespace>Sharp.MySQL.Migrations</RootNamespace>
 		<AssemblyName>Sharp.MySQL.Migrations</AssemblyName>
-		<Version>0.11.0</Version>
+		<Version>0.11.1</Version>
 		<PackageId>Sharp.MySQL.Migrations</PackageId>
 		<PackageReleaseNotes>Pareado com o commit e89c900</PackageReleaseNotes>
 		<Nullable>warnings</Nullable>
