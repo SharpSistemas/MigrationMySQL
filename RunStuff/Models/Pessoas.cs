@@ -3,7 +3,7 @@ using System;
 
 namespace RunStuff.Models
 {
-    [Name("fuckthispeople")]
+    [Name("Pessoas")]
     public class Pessoas
     {
         [PrimaryKey]
