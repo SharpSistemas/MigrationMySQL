@@ -23,7 +23,7 @@ namespace RunStuff.SchemaChanges
             using (var cnn = factory.GetConnection())
             {
                 cnn.Execute(@"
-INSERT INTO pessoas(
+INSERT INTO Pessoas(
 Uuid, Nome, CEP, Logradouro, Bairro, Cidade, UF, Numero, Complemento, Salario, Nascimento, Contratacao, CargaHoraria) VALUES (
 @Uuid, @Nome, @CEP, @Logradouro, @Bairro, @Cidade, @UF, @Numero, @Complemento, @Salario, @Nascimento, @Contratacao, @CargaHoraria)",
 new

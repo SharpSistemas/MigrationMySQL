@@ -25,7 +25,7 @@ namespace RunStuff.SchemaChanges
             using (var conn = factory.GetConnection())
             {
                 conn.Execute(@"
-INSERT INTO pedidos (
+INSERT INTO Pedidos (
 Uuid, DataHora, ValorPedido, QtdeItens, UuidCliente) VALUES(
 @Uuid, @DataHora, @ValorPedido, @QtdeItens, @UuidCliente)
 ",
