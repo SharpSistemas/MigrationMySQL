@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using RunStuff.Models;
+using RunStuff.SchemaChanges;
 using Sharp.MySQL.Migrations.Helpers;
 using Sharp.MySQL.Migrations.TypesHandler;
 using System;
@@ -24,9 +25,20 @@ namespace RunStuff
             // Creata an migration instance
             var migration = new Sharp.MySQL.Migration(mySQLFactory);
             // Add or change tables
-            var result = migration
-                                  .Migrate();
 
+            migration.AddModel<Empresas>()
+                     .AddModel<Pessoas>()
+                     .AddModel<Pedidos>();
+
+            migration.AddChange<Change_01_20211220>()
+                     .AddChange<Change_02_20211229>()
+                     .AddChange<Change_03_20211229>();
+
+            var start = DateTime.Now; 
+            var result = migration.Migrate();
+            var ts = DateTime.Now - start;
+
+            Console.WriteLine($"Duration: {ts}");
             foreach (var r in result.tables)
             {
                 Console.WriteLine($"Table: {r.TableName}");
