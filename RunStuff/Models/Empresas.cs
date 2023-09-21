@@ -13,7 +13,7 @@ namespace RunStuff.Models
         [TypeFieldBD(TypeField.BINARY, 16)]
         public Guid Uuid { get; set; }
 
-        [TypeFieldBD(TypeField.BINARY, size: 16, defaultValue: "'nue'", notNull: true)]
+        [TypeFieldBD(TypeField.NVARCHAR, 100, defaultValue: "'nue'", notNull: true)]
         public string Nome { get; set; }
     }
 }
