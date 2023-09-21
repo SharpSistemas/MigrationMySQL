@@ -163,8 +163,27 @@ namespace Sharp.MySQL.Migrations.Core.Queries
 
                 var val1 = c.DefaultValue == null ? null : c.DefaultValue.Trim('\'');
                 var val2 = colBd.Default == null ? null : colBd.Default.Trim('\'');
-
+                // Chega igualdade simples e NULLs
                 if (val1 == val2) continue;
+                if (val1 == null || val2 == null) // Não são iguais, logo o outro nao é NULL
+                {
+                    colsDiff.Add(c);
+                    continue;
+                }
+
+                // Tem que levar o tipo em conta na comparação
+                if (c.TypeField == Attributes.TypeField.DECIMAL)
+                {
+                    var d1 = decimal.Parse(val1, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture);
+                    var d2 = decimal.Parse(val2, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (d1 != d2)
+                    {
+                        colsDiff.Add(c);
+                    }
+                    continue;
+                }
+
                 colsDiff.Add(c);
                 continue;
             }
