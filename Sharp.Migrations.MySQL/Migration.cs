@@ -190,9 +190,9 @@ namespace Sharp.MySQL
         }
         private bool existeTabela(string[] allTables, string tableName)
         {
-            return allTables.Any(t => t.Equals(tableName)); // CaseSensitive?
-            //var tb = cnn.QueryFirstOrDefault<string>("show tables like @tableName", new { tableName });
-            //return tb != null;
+            // CaseSensitive: https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html
+            // Se for INsensitive, ele salva minúsculo no BD
+            return allTables.Any(t => t.Equals(tableName, StringComparison.InvariantCultureIgnoreCase));
         }
         private TableIndex[] getTableIndexes(IDbConnection cnn, string tableName)
         {
